@@ -1,0 +1,79 @@
+{
+  "name": "Company",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Name": {
+      "type": "string",
+      "required": true,
+      "length": 250
+    },
+    "Description": {
+      "type": "string",
+      "length": 1000
+    },
+    "AddedAt": {
+      "type": "date",
+      "required": true,
+      "postgresql": {
+        "columnName": "added_at"
+      }
+    },
+    "AddedById": {
+      "type": "number",
+      "required": true,
+      "postgresql": {
+        "columnName": "added_by_id"
+      }
+    },
+    "ModifiedAt": {
+      "type": "date",
+      "required": true,
+      "postgresql": {
+        "columnName": "modified_at"
+      }
+    },
+    "ModifiedById": {
+      "type": "number",
+      "required": true,
+      "postgresql": {
+        "columnName": "modified_by_id"
+      }
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW",
+      "property": "find"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "DENY",
+      "property": "find"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "ALLOW",
+      "property": "find"
+    }
+  ],
+  "methods": {}
+}

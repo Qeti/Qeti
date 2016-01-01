@@ -1,0 +1,14 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "master": {
+    "host": "localhost",
+    "database": "qeti",
+    "password": "postgres",
+    "name": "master",
+    "connector": "postgresql",
+    "user": "postgres"
+  }
+}

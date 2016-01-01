@@ -1,0 +1,12 @@
+{
+  "ids": {
+    "ManagerHost": 4,
+    "LoadBalancer": 1
+  },
+  "models": {
+    "ManagerHost": {
+      "8ff81987-0c2f-482c-9bc5-0bf3ede825e2": "{\"id\":\"8ff81987-0c2f-482c-9bc5-0bf3ede825e2\",\"host\":\"localhost\",\"port\":8701,\"actions\":[\"delete\",\"edit\",\"env-set\",\"env-get\",\"stop\",\"restart\",\"cluster-restart\",\"license-push\"],\"protocol\":\"http\",\"created\":1451249901896,\"error\":null,\"errorType\":null,\"app\":{\"name\":\"qeti\",\"version\":null,\"port\":3001},\"processes\":{\"pids\":[{\"parentPid\":22320,\"pid\":22792,\"workerId\":0,\"listeningSockets\":[],\"isTrackingObjects\":false,\"isProfiling\":false,\"isTracing\":false,\"debugger\":{\"running\":false,\"port\":null},\"watchdogTimeout\":0,\"watchdogStallout\":0,\"isSnapshotting\":false,\"startTime\":\"2015-12-30T22:54:19.215Z\",\"stopTime\":null,\"stopReason\":\"\",\"id\":2,\"serviceInstanceId\":1},{\"parentPid\":22792,\"pid\":22905,\"workerId\":2,\"listeningSockets\":[{\"addressType\":4,\"address\":\"0.0.0.0\",\"port\":3001}],\"isTrackingObjects\":false,\"isProfiling\":false,\"isTracing\":false,\"debugger\":{\"running\":false,\"port\":null},\"watchdogTimeout\":0,\"watchdogStallout\":0,\"isSnapshotting\":false,\"startTime\":\"2015-12-30T22:57:14.087Z\",\"stopTime\":null,\"stopReason\":\"\",\"id\":3,\"serviceInstanceId\":1}]},\"$$hashKey\":\"object:49\",\"isHostProblem\":true}"
+    },
+    "LoadBalancer": {}
+  }
+}
