@@ -27,6 +27,8 @@
     </header>
     
     <div ng-controller="MainCtrl">
+      <button id="reset" class="button" ng-click="reset()">Reset</button>
+      <span>&nbsp; &nbsp; First page: {{ firstPage }} &nbsp; &nbsp; Last page: {{ lastPage }} &nbsp; &nbsp; data.length: {{ data.length }}</span>
       <div id="grid1" ui-grid="gridOptions" class="grid" ui-grid-infinite-scroll></div>
     </div>
 
