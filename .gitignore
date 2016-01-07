@@ -15,6 +15,7 @@
 .project
 .strong-pm
 bower_components
+client/build
 coverage
 node_modules
 npm-debug.log
