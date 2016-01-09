@@ -112,8 +112,8 @@ gulp.task('custom-less-dev', function () {
  */
 gulp.task('watch', function () {
   gulp.watch([paths.images], ['custom-images']);
-  gulp.watch([paths.styles], ['custom-less']);
-  gulp.watch([paths.scripts], ['custom-js']);
+  gulp.watch([paths.styles], ['custom-less-dev']);
+  gulp.watch([paths.scripts], ['custom-js-dev']);
   gulp.watch([paths.views], ['usemin']);
 });
 
@@ -128,12 +128,6 @@ gulp.task('webserver', function () {
   });
 });
 
-gulp.task('livereload', function () {
-  gulp.src(['client/build/**/*.*'])
-      .pipe(watch())
-      .pipe(connect.reload());
-});
-
 gulp.task('common', ['usemin', 'vendor-js', 'vendor-css', 'build-assets']);
 
 /**
@@ -141,4 +135,4 @@ gulp.task('common', ['usemin', 'vendor-js', 'vendor-css', 'build-assets']);
  */
 gulp.task('build-dev', ['common', 'vendor-maps', 'build-custom-dev']);
 gulp.task('build', ['common', 'build-custom']);
-gulp.task('default', ['build', 'webserver', 'livereload', 'watch']);
+gulp.task('default', ['build-dev', 'webserver', 'watch']);
