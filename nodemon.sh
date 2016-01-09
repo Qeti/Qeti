@@ -1,0 +1,1 @@
+nodemon ./server/server.js localhost 3000
