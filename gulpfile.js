@@ -7,13 +7,15 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     less = require('gulp-less'),
     rename = require('gulp-rename'),
-    minifyHTML = require('gulp-minify-html');
+    minifyHTML = require('gulp-minify-html'),
+    sourcemaps = require('gulp-sourcemaps');
 
 var paths = {
   scripts: 'client/src/js/**/*.*',
   scripts_vendor: 'bower_components/**/*.min.js',
   styles: 'client/src/css/**/*.*',
   styles_vendor: 'bower_components/**/*.min.css',
+  maps_vendor: 'bower_components/**/*.map',
   images: 'client/src/img/**/*.*',
   views: 'client/src/**/*.html',
   bower_fonts: 'bower_components/**/*.{ttf,woff,eof,svg}'
@@ -58,15 +60,19 @@ gulp.task('custom-js', function () {
       .pipe(gulp.dest('client/build/js'));
 });
 
-gulp.task('vendor-js', function () {
-  return gulp.src(paths.scripts_vendor)
-      .pipe(gulp.dest('client/build/vendor'));
-});
-
 gulp.task('custom-less', function () {
   return gulp.src(paths.styles)
       .pipe(less())
       .pipe(gulp.dest('client/build/css'));
+});
+
+
+/**
+ * Handle vendor files
+ */
+gulp.task('vendor-js', function () {
+  return gulp.src(paths.scripts_vendor)
+      .pipe(gulp.dest('client/build/vendor'));
 });
 
 gulp.task('vendor-css', function () {
@@ -74,19 +80,30 @@ gulp.task('vendor-css', function () {
       .pipe(gulp.dest('client/build/vendor'));
 });
 
+gulp.task('vendor-maps', function () {
+  return gulp.src(paths.maps_vendor)
+      .pipe(gulp.dest('client/build/vendor'));
+});
+
 /**
  * Handle custom files
  */
-gulp.task('build-custom-dev', ['custom-images', 'custom-js-dev', 'custom-less']);
+gulp.task('build-custom-dev', ['custom-images', 'custom-js-dev', 'custom-less-dev']);
 
 gulp.task('custom-js-dev', function () {
   return gulp.src(paths.scripts)
+      .pipe(sourcemaps.init())
+        .pipe(minifyJs())
+        .pipe(concat('qeti.min.js'))
+      .pipe(sourcemaps.write('../js'))
       .pipe(gulp.dest('client/build/js'));
 });
 
-gulp.task('custom-less', function () {
+gulp.task('custom-less-dev', function () {
   return gulp.src(paths.styles)
-      .pipe(less())
+      .pipe(sourcemaps.init())
+        .pipe(less())
+      .pipe(sourcemaps.write('../css'))
       .pipe(gulp.dest('client/build/css'));
 });
 
@@ -117,11 +134,11 @@ gulp.task('livereload', function () {
       .pipe(connect.reload());
 });
 
-gulp.task('common', ['vendor-js', 'vendor-css', 'build-assets']);
+gulp.task('common', ['usemin', 'vendor-js', 'vendor-css', 'build-assets']);
 
 /**
  * Gulp tasks
  */
-gulp.task('build-dev', ['common', 'build-custom-dev']);
-gulp.task('build', ['usemin', 'common', 'build-custom']);
+gulp.task('build-dev', ['common', 'vendor-maps', 'build-custom-dev']);
+gulp.task('build', ['common', 'build-custom']);
 gulp.task('default', ['build', 'webserver', 'livereload', 'watch']);
