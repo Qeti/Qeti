@@ -11,7 +11,7 @@ git clone git@github.com:Qeti/Qeti.git
 ```
 
 Create empty database with PostgreSQL or MySQL 
-and create file `server/datasources.js` with connection info. 
+and create file `server/datasources.json` with connection info. 
 Example for PostgreSQL:
 
 ```
