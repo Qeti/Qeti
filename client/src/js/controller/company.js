@@ -6,6 +6,7 @@ app.controller('MainCtrl', [
       //infiniteScrollRowsFromEnd: 20,
       infiniteScrollUp: true,
       infiniteScrollDown: true,
+      enableFiltering: true,
       columnDefs: [
         {name: 'id'},
         {name: 'Name'},

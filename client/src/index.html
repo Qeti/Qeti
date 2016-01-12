@@ -19,20 +19,27 @@
     <link href="css/style.css" rel="stylesheet">
   </head>
   <body>
-    <div class="container fill">
-      <header>
+    <header>
+      <div>
         <h1>Qeti</h1>
         <input type="text" ng-model="yourName" placeholder="Введите свое имя">
         <pre>Привет {{yourName}}!</pre>
         <p ng-show="currentUser">Hello {{currentUser.email}}</p>
-      </header>
+      </div>
+    </header>
     
-      <div ng-controller="MainCtrl" class="content">
-        <button id="reset" class="button" ng-click="reset()">Reset</button>
-        <span>&nbsp; &nbsp; First page: {{ firstPage }} &nbsp; &nbsp; Last page: {{ lastPage }} &nbsp; &nbsp; data.length: {{ data.length }}</span>
-        <div id="grid1" ui-grid="gridOptions" class="grid" ui-grid-infinite-scroll></div>
+    <div class="main">
+      <div ng-controller="MainCtrl" class="maingrid">
+        <div>
+            <button id="reset" class="button" ng-click="reset()">Reset</button>
+            <span>&nbsp; &nbsp; First page: {{ firstPage }} &nbsp; &nbsp; Last page: {{ lastPage }} &nbsp; &nbsp; data.length: {{ data.length }}</span>
+        </div>
+        <div ui-grid="gridOptions" class="grid" ui-grid-infinite-scroll></div>
       </div>
     </div>
+
+    <footer>
+    </footer>
 
     <!-- build:js1 js/qeti.min.js -->
     <script src="js/app.js"></script>
