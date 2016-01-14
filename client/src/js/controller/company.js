@@ -2,48 +2,78 @@ app.controller('MainCtrl', [
   '$scope', '$timeout', '$q', 'Company', 
   function ($scope, $timeout, $q, Company) {
 
+    $scope.getFilter = function(grid) {
+      var filter = [];
+      var i, j;
+      for (i = 0; i < grid.columns.length; i++) {
+        for (j = 0; j < grid.columns[i].filters.length; j++) {
+          if ('term' in grid.columns[i].filters[j]) {
+            if (grid.columns[i].filters[j].term) {
+              var elem = {};
+              elem[grid.columns[i].field] = grid.columns[i].filters[j].term;
+              filter.push(elem);
+            }
+          }
+        }
+      }
+      if (filter.length === 0) {
+        return null;
+      }
+      return {and: filter};
+    };
+
+    $scope.getSorting = function(grid) {
+      var sorting = [];
+      var sortColumns = grid.getColumnSorting();
+      if (sortColumns.length > 0) {
+        for (var i = 0; i< sortColumns.length; i++) {
+          sorting.push(sortColumns[i].field + ' ' + sortColumns[i].sort.direction);
+        }
+      }
+      if (sorting.length === 0) {
+        return null;
+      }
+      return sorting;
+    };
+
+    $scope.render = function(grid) {
+      var filter = $scope.getFilter(grid);
+      var sorting = $scope.getSorting(grid);
+      $scope.firstPage = 1;
+      $scope.lastPage = 1;
+      $scope.data = [];
+      $scope.getFirstData(filter, sorting).then(function(){
+        $timeout(function() {
+          $scope.gridApi.infiniteScroll.resetScroll($scope.firstPage > 1, $scope.lastPage < $scope.totalPages);
+        });
+      });
+    };
+
     $scope.gridOptions = {
       //infiniteScrollRowsFromEnd: 20,
       infiniteScrollUp: true,
       infiniteScrollDown: true,
       enableFiltering: true,
       useExternalFiltering: true,
+      useExternalSorting: true,
       columnDefs: [
         {headerName: "Id", field: "id", width: 50},
         {name: 'Name'},
         {name: 'AddedAt'}
       ],
       data: 'data',
+
       onRegisterApi: function(gridApi){
         gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
         gridApi.infiniteScroll.on.needLoadMoreDataTop($scope, $scope.getDataUp);
         $scope.gridApi = gridApi;
 
-        $scope.gridApi.core.on.filterChanged($scope, function() {
-          var grid = this.grid;
-          var filter = [];
-          var i, j;
-          for (i = 0; i < grid.columns.length; i++) {
-            for (j = 0; j < grid.columns[i].filters.length; j++) {
-              if ('term' in grid.columns[i].filters[j]) {
-                if (grid.columns[i].filters[j].term) {
-                  var elem = {};
-                  elem[grid.columns[i].field] = grid.columns[i].filters[j].term;
-                  filter.push(elem);
-                }
-              }
-            }
-          }
-          filter = {and: filter};
+        $scope.gridApi.core.on.sortChanged($scope, function() {
+          $scope.render(this.grid);
+        });
 
-          $scope.firstPage = 1;
-          $scope.lastPage = 1;
-          $scope.data = [];
-          $scope.getFirstData(filter).then(function(){
-            $timeout(function() {
-              $scope.gridApi.infiniteScroll.resetScroll($scope.firstPage > 1, $scope.lastPage < $scope.totalPages);
-            });
-          });
+        $scope.gridApi.core.on.filterChanged($scope, function() {
+          $scope.render(this.grid);
         });
       }
     };
@@ -58,7 +88,7 @@ app.controller('MainCtrl', [
     $scope.totalPages = 1;
 
 
-    $scope.getFirstData = function(filter) {
+    $scope.getFirstData = function(filter, sorting) {
       var promise = $q.defer();
 
       Company
@@ -66,7 +96,8 @@ app.controller('MainCtrl', [
           filter: {
             offset: ($scope.firstPage - 1) * $scope.pageSize,
             limit: ($scope.lastPage - $scope.firstPage + 1) * $scope.pageSize,
-            where: filter
+            where: filter,
+            order: sorting
           }
         })
         .$promise
