@@ -7,8 +7,9 @@ app.controller('MainCtrl', [
       infiniteScrollUp: true,
       infiniteScrollDown: true,
       enableFiltering: true,
+      useExternalFiltering: true,
       columnDefs: [
-        {name: 'id'},
+        {headerName: "Id", field: "id", width: 50},
         {name: 'Name'},
         {name: 'AddedAt'}
       ],
@@ -17,6 +18,33 @@ app.controller('MainCtrl', [
         gridApi.infiniteScroll.on.needLoadMoreData($scope, $scope.getDataDown);
         gridApi.infiniteScroll.on.needLoadMoreDataTop($scope, $scope.getDataUp);
         $scope.gridApi = gridApi;
+
+        $scope.gridApi.core.on.filterChanged($scope, function() {
+          var grid = this.grid;
+          var filter = [];
+          var i, j;
+          for (i = 0; i < grid.columns.length; i++) {
+            for (j = 0; j < grid.columns[i].filters.length; j++) {
+              if ('term' in grid.columns[i].filters[j]) {
+                if (grid.columns[i].filters[j].term) {
+                  var elem = {};
+                  elem[grid.columns[i].field] = grid.columns[i].filters[j].term;
+                  filter.push(elem);
+                }
+              }
+            }
+          }
+          filter = {and: filter};
+
+          $scope.firstPage = 1;
+          $scope.lastPage = 1;
+          $scope.data = [];
+          $scope.getFirstData(filter).then(function(){
+            $timeout(function() {
+              $scope.gridApi.infiniteScroll.resetScroll($scope.firstPage > 1, $scope.lastPage < $scope.totalPages);
+            });
+          });
+        });
       }
     };
 
@@ -30,14 +58,15 @@ app.controller('MainCtrl', [
     $scope.totalPages = 1;
 
 
-    $scope.getFirstData = function() {
+    $scope.getFirstData = function(filter) {
       var promise = $q.defer();
 
       Company
         .find({
           filter: {
-            "offset": ($scope.firstPage - 1) * $scope.pageSize,
-            "limit": ($scope.lastPage - $scope.firstPage + 1) * $scope.pageSize
+            offset: ($scope.firstPage - 1) * $scope.pageSize,
+            limit: ($scope.lastPage - $scope.firstPage + 1) * $scope.pageSize,
+            where: filter
           }
         })
         .$promise
