@@ -1,6 +1,6 @@
 app.controller('GridController', [
-  '$scope', '$timeout', '$q', 'Entity', 
-  function GridController($scope, $timeout, $q, Entity) {
+  '$scope', '$timeout', '$q', 'entity', 'columnDefs',
+  function GridController($scope, $timeout, $q, entity, columnDefs) {
 
     $scope.getFilter = function(grid) {
       var filter = [];
@@ -11,7 +11,7 @@ app.controller('GridController', [
             if (grid.columns[i].filters[j].term) {
               var elem = {};
               elem[grid.columns[i].field] = grid.columns[i].filters[j].term;
-              elem[grid.columns[i].field] = {like: '%' + grid.columns[i].filters[j].term + '%'};
+              //elem[grid.columns[i].field] = {like: '%' + grid.columns[i].filters[j].term + '%'};
               filter.push(elem);
             }
           }
@@ -53,11 +53,7 @@ app.controller('GridController', [
       enableFiltering: true,
       useExternalFiltering: true,
       useExternalSorting: true,
-      columnDefs: [
-        {headerName: "Id", field: "id", width: 50},
-        {name: 'Name'},
-        {name: 'AddedAt'}
-      ],
+      columnDefs: columnDefs,
       data: 'data',
 
       onRegisterApi: function(gridApi){
@@ -90,7 +86,7 @@ app.controller('GridController', [
     $scope.getFirstData = function() {
       var promise = $q.defer();
 
-      Entity
+      entity
         .find({
           filter: {
             offset: ($scope.firstPage - 1) * $scope.pageSize,
@@ -104,7 +100,7 @@ app.controller('GridController', [
           $scope.data = $scope.data.concat(results);
         })
         .then(function() {
-          Entity
+          entity
             .count()
             .$promise
             .then(function(results) {
@@ -125,7 +121,7 @@ app.controller('GridController', [
     $scope.getDataDown = function() {
       var promise = $q.defer();
 
-      Entity
+      entity
         .find({
           filter: {
             offset: ($scope.lastPage + 1) * $scope.pageSize,
@@ -155,7 +151,7 @@ app.controller('GridController', [
     $scope.getDataUp = function() {
       var promise = $q.defer();
 
-      Entity
+      entity
         .find({
           filter: {
             offset: ($scope.firstPage - 2) * $scope.pageSize,
