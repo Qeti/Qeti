@@ -7,8 +7,16 @@ app.controller('CompanyController', [
       $q: $q, 
       entity: entity,
       columnDefs: [
-        {headerName: "Id", field: "id", width: 50},
+        {
+          headerName: "Id",
+          name: "id",
+          width: 50
+        },
         {name: 'Name'},
+        {
+          field: 'Description',
+          cellTemplate: '<img ng-show="COL_FIELD != null" ng-src="{{COL_FIELD != null ? \'img/\' + COL_FIELD : \'\'}}" style="height: 100%"/>'
+        },
         {name: 'AddedAt'}
       ]
     }));
