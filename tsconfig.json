@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "module": "system",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "outDir": "client/build/app",
+    "out": "client/build/app",
+    "noImplicitAny": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

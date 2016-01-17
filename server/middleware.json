@@ -23,9 +23,11 @@
     }
   },
   "files": {
-    "loopback#static": {
+    "loopback#static": [{
       "params": "$!../client/build"
-    }
+    },{
+      "params": "$!../node_modules"
+    }]
   },
   "final": {
     "loopback#urlNotFound": {}
