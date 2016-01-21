@@ -1,17 +1,24 @@
-import {Component, View} from 'angular2/core';
 
+import {Component, View} from 'angular2/core';
+import {CompanyService} from './services/company'
+import * as core from 'angular2/core';
+
+declare var ag: any;
+ag.grid.initialiseAgGridWithAngular2({ core: core });
+  
 @Component({
-  selector: 'my-app'
+  selector: 'my-app',
+  bindings: [CompanyService]
 })
 
 @View({
   directives: [(<any>window).ag.grid.AgGridNg2],
   template: `
-    <h1>ok</h1>\n\
     <ag-grid-ng2
-    class="ag-fresh grid"
-    [columnDefs]="columnDefs" [rowData]="rowData"></ag-grid-ng2>\n\
-    <h2>{{test}}</h2>\n\
+      class="ag-fresh grid"
+      [columnDefs]="columnDefs"
+      [rowData]="rowData">
+    </ag-grid-ng2>\n\
   `
 })
 
@@ -21,22 +28,17 @@ export class AppComponent {
 
   private rowData: Object[];
 
-  private test: string;
-  
-  constructor() {
+  constructor(service: CompanyService) {
     this.columnDefs = [
       {headerName: "Make", field: "make"},
       {headerName: "Model", field: "model"},
       {headerName: "Price", field: "price"}
     ];
 
-        // put data directly onto the controller
-    this.rowData = [
-      {make: "Toyota", model: "Celica", price: 35000},
-      {make: "Ford", model: "Mondeo", price: 32000},
-      {make: "Porsche", model: "Boxter", price: 72000}
-    ];
-    
-    this.test = 'test!';
+    service.getList().subscribe(
+      (res: Response) => {
+        this.rowData = res;
+      }
+    );
   }
 }
