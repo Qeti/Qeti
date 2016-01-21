@@ -1,3 +1,4 @@
+/*
 app.controller('GridController', [
   '$scope', '$timeout', '$q', 'entity', 'columnDefs',
   function GridController($scope, $timeout, $q, entity, columnDefs) {
@@ -218,3 +219,4 @@ app.controller('GridController', [
     $scope.getFirstData();
   }
 ]);
+*/
