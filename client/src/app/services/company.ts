@@ -10,7 +10,7 @@ export class CompanyService {
   }
 
   getList(): string {
-    return this.http.get("data/company_test_data.json")
+    return this.http.get("api/Companies")
       .map((res) => res.json());
   }
 }

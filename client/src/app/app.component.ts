@@ -30,9 +30,9 @@ export class AppComponent {
 
   constructor(service: CompanyService) {
     this.columnDefs = [
-      {headerName: "Make", field: "make"},
-      {headerName: "Model", field: "model"},
-      {headerName: "Price", field: "price"}
+      {headerName: "Id", field: "id"},
+      {headerName: "Name", field: "Name"},
+      {headerName: "Description", field: "Description"}
     ];
 
     service.getList().subscribe(
