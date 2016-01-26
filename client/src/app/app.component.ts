@@ -42,14 +42,32 @@ export class AppComponent {
     this.enableFilter = true;
     
     this.columnDefs = [
-      {headerName: "Id", field: "id", filter: 'number', width: 50},
-      {headerName: "Name", field: "Name", width: 200},
-      {headerName: "Description", field: "Description", width: 400}
+      {
+        headerName: "Id", 
+        field: "id", 
+        filter: 'number', 
+        width: 50
+      },
+      {
+        headerName: "Name", 
+        field: "Name", 
+        width: 200
+      },
+      {
+        headerName: "Description", 
+        field: "Description", 
+        cellRenderer: descriptionRenderer,
+        width: 400
+      }
     ];
 
     let self = this;
     resource.find({where: {id: {lt: 100}}}).then(function(response) {
       self.rowData = response;
     });
+  }
+  
+  function descriptionRenderer(params) {
+    return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
   }
 }

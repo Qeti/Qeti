@@ -56,3 +56,8 @@ footer {
   color: #eee;
   padding: 15px;
 }
+
+.image-cell {
+  max-height: 100%;
+  max-width: 100%;
+}
