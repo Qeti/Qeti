@@ -1,24 +1,30 @@
+import {Injectable} from 'angular2/core';
 import {Http, Headers} from 'angular2/http';
-import {Inject} from 'angular2/core';
 import 'rxjs/add/operator/map';
+import {Config} from './config';
 
 interface IFilter {
   include?: any;
   where?: any;
 }
 
+@Injectable()
 export abstract class BaseResource {
   http: Http;
   modelName: string;
   model: any;
+  config: Config;
 
-  constructor(http: Http) {
-    this.http = http;
+  constructor(public http: Http, public config: Config) {
+    this.setModel();
+  }
+  
+  setModel() {
   }
 
   search(searchFor: string) {
     return new Promise((resolve, reject) => {
-      this.http.get('/api/' + this.modelName + '/search/' + searchFor)
+      this.http.get(this.config.apiUrl + this.modelName + '/search/' + searchFor)
         .map(res => res.json())
         .subscribe(res => {
           if (res.error) {
@@ -44,7 +50,7 @@ export abstract class BaseResource {
 
   findById(id: number, filter: IFilter = null) {
     return new Promise((resolve, reject) => {
-      let url = '/api/' + this.modelName + '/get/' + id;
+      let url = this.config.apiUrl + this.modelName + '/get/' + id;
       //if (filter) {
       //  url = url + '?filter=' + JSON.stringify(filter);
       //  console.log('URL', url);
@@ -64,7 +70,7 @@ export abstract class BaseResource {
 
   find(filter: IFilter = null) {
     return new Promise((resolve, reject) => {
-      let url = '/api/' + this.modelName;
+      let url = this.config.apiUrl + this.modelName;
       if (filter) {
         url = url + '?filter=' + JSON.stringify(filter);
       }
@@ -84,7 +90,7 @@ export abstract class BaseResource {
 
   upsert(model) {
     return new Promise((resolve, reject) => {
-      let url = '/api/' + this.modelName;
+      let url = this.config.apiUrl + this.modelName;
       //if (filter) {
       //  url = url + '?filter=' + JSON.stringify(filter);
       //  console.log('URL', url);

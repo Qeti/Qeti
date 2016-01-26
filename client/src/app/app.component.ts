@@ -1,9 +1,10 @@
 import {Component, View} from 'angular2/core';
-import {CompanyResource} from './company';
 import * as core from 'angular2/core';
+import {CompanyResource} from './company';
+import {Config} from './config';
 
 declare var ag: any;
-ag.grid.initialiseAgGridWithAngular2({ core: core });
+ag.grid.initialiseAgGridWithAngular2({core: core});
   
 @Component({
   selector: 'my-app',
@@ -18,11 +19,11 @@ ag.grid.initialiseAgGridWithAngular2({ core: core });
     </div>\n\
     <ag-grid-ng2
       #agGrid
-      class="ag-fresh grid"
       (ready)="agGrid.api.sizeColumnsToFit()"
       enableColResize
       enableSorting
       sizeColumnsToFit
+      [ngClass]="classes"
       [enableFilter]="enableFilter"
       [columnDefs]="columnDefs"
       [rowData]="rowData">
@@ -37,8 +38,12 @@ export class AppComponent {
   private rowData: Object[];
   
   private enableFilter: boolean;
+  
+  private classes = {
+    "grid": true
+  };
 
-  constructor(resource: CompanyResource) {
+  constructor(resource: CompanyResource, private config: Config) {
     this.enableFilter = true;
     
     this.columnDefs = [
@@ -65,6 +70,8 @@ export class AppComponent {
     resource.find({where: {id: {lt: 100}}}).then(function(response) {
       self.rowData = response;
     });
+    
+    this.classes[this.config.gridTheme] = true;
   }
   
   function descriptionRenderer(params) {

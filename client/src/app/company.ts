@@ -1,8 +1,7 @@
-import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
-import {BaseResource} from './base_resource';
 import 'rxjs/add/operator/map';
-
+import {BaseResource} from './base_resource';
+import {Config} from './config';
 
 export class CompanyModel {
   id: number;
@@ -20,19 +19,16 @@ export class CompanyModel {
   }
 }
 
-@Injectable()
 export class CompanyResource extends BaseResource {
-    http: Http;
-    model;
-    modelName = 'Companies';
+  modelName = 'Companies';
 
-    constructor(http: Http) {
-        super(http);
+  constructor(http: Http, config: Config) {
+    super(http, config);
+  }
 
-        this.model = (construct) => {
-            return new CompanyModel(construct);
-        };
-
-        this.http = http;
-    }
+  setModel() {
+    this.model = (construct) => {
+      return new CompanyModel(construct);
+    };
+  }
 }
