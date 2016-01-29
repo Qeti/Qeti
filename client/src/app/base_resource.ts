@@ -8,19 +8,19 @@ interface IFilter {
   where?: any;
 }
 
+// @todo: make this class as independed service
 @Injectable()
 export abstract class BaseResource {
   http: Http;
   modelName: string;
   model: any;
-  config: Config;
+  config: Config; // @todo: remove this dependence
 
   constructor(public http: Http, public config: Config) {
     this.setModel();
   }
   
-  setModel() {
-  }
+  abstract setModel(): void;
 
   search(searchFor: string) {
     return new Promise((resolve, reject) => {
@@ -83,6 +83,26 @@ export abstract class BaseResource {
             reject(res.error);
           } else {
             resolve(this.mapListToModelList(res));
+          }
+        });
+    });
+  }
+
+  count(filter: IFilter = null) {
+    return new Promise((resolve, reject) => {
+      let url = this.config.apiUrl + this.modelName + '/count';
+      if (filter) {
+        url = url + '?filter=' + JSON.stringify(filter);
+      }
+
+      this.http.get(url)
+        .map(res => res.json())
+
+        .subscribe(res => {
+          if (res.error) {
+            reject(res.error);
+          } else {
+            resolve(res);
           }
         });
     });

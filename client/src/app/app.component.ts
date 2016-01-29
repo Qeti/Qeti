@@ -23,10 +23,12 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
       enableColResize
       enableSorting
       sizeColumnsToFit
+      virtualPaging
       [ngClass]="classes"
+      [gridOptions]="gridOptions"
       [enableFilter]="enableFilter"
       [columnDefs]="columnDefs"
-      [rowData]="rowData">
+    >
     </ag-grid-ng2>\n\
   `
 })
@@ -35,9 +37,9 @@ export class AppComponent {
 
   private columnDefs: Object[];
 
-  private rowData: Object[];
-  
   private enableFilter: boolean;
+
+  private gridOptions = {};
   
   private classes = {
     "grid": true
@@ -67,8 +69,29 @@ export class AppComponent {
     ];
 
     let self = this;
-    resource.find({where: {id: {lt: 100}}}).then(function(response) {
-      self.rowData = response;
+    resource.count().then(function(response) {
+      console.log(response);
+      var lastRow = response.count;
+
+      let datasource = {
+        rowCount: null, // behave as infinite scroll
+        pageSize: 100,
+        overflowSize: 100,
+        maxConcurrentRequests: 2,
+        maxPagesInCache: 5,
+        getRows: function (params) {
+          resource
+            .find({
+              offset: params.startRow,
+              limit: datasource.pageSize
+            })
+            .then(function(response) {
+              params.successCallback(response, lastRow);
+            }
+        }
+      };
+
+      self.gridOptions.api.setDatasource(datasource);
     });
     
     this.classes[this.config.gridTheme] = true;
