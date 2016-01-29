@@ -70,7 +70,6 @@ export class AppComponent {
 
     let self = this;
     resource.count().then(function(response) {
-      console.log(response);
       var lastRow = response.count;
 
       let datasource = {

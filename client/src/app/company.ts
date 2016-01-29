@@ -1,6 +1,7 @@
+import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
-import {BaseResource} from './base_resource';
+import {AbstractLoopbackResource} from './AbstractLoopbackResource';
 import {Config} from './config';
 
 export class CompanyModel {
@@ -19,16 +20,14 @@ export class CompanyModel {
   }
 }
 
-export class CompanyResource extends BaseResource {
-  modelName = 'Companies';
+@Injectable()
+export class CompanyResource extends AbstractLoopbackResource {
 
   constructor(http: Http, config: Config) {
-    super(http, config);
+    super(CompanyModel, http, config.apiUrl);
   }
 
-  setModel() {
-    this.model = (construct) => {
-      return new CompanyModel(construct);
-    };
+  public getModelName(): string {
+    return 'Companies';
   }
 }
