@@ -1,27 +1,36 @@
 import {Http, Headers} from 'angular2/http';
 import 'rxjs/add/operator/map';
 
-interface IFilter {
+export interface IFilter {
+  fields?: any;
   include?: any;
+  limit?: any;
+  order?: any;
+  skip?: any;
+  offset?: any;
   where?: any;
 }
 
-export abstract class AbstractLoopbackResource {
-  private http: Http;
-  private model: any;
-  private apiUrl: string;
+export class LoopbackApi {
 
-  constructor(entityClass: class, private http: Http, private apiUrl: string = 'api/') {
-    this.model = (construct) => {
+  /**
+   * Model
+   */
+  private model: any;
+
+  constructor(private http: Http, entityClass: any, private methodName: string, private apiUrl: string = 'api/') {
+    this.model = (construct: any) => {
       return new entityClass(construct);
     };
   }
-  
+
   /**
    * Get model name for building part of URL for API
    * @return string
    */
-  abstract public getModelName(): string;
+  private getMethodName(): string {
+    return this.methodName;
+  }
 
   private mapListToModelList(list: Array<Object>) {
     list.forEach((item, index) => {
@@ -35,23 +44,9 @@ export abstract class AbstractLoopbackResource {
     return this.model(model);
   }
 
-  public search(searchFor: string) {
-    return new Promise((resolve, reject) => {
-      this.http.get(this.apiUrl + this.getModelName() + '/search/' + searchFor)
-        .map(res => res.json())
-        .subscribe(res => {
-          if (res.error) {
-            reject(res.error);
-          } else {
-            resolve(this.mapListToModelList(res));
-          }
-        });
-    });
-  }
-
   public findById(id: number, filter: IFilter = null) {
     return new Promise((resolve, reject) => {
-      let url = this.apiUrl + this.getModelName() + '/get/' + id;
+      let url = this.apiUrl + this.getMethodName() + '/get/' + id;
       if (filter) {
         url = url + '?filter=' + JSON.stringify(filter);
       }
@@ -70,7 +65,7 @@ export abstract class AbstractLoopbackResource {
 
   public find(filter: IFilter = null) {
     return new Promise((resolve, reject) => {
-      let url = this.apiUrl + this.getModelName();
+      let url = this.apiUrl + this.getMethodName();
       if (filter) {
         url = url + '?filter=' + JSON.stringify(filter);
       }
@@ -90,7 +85,7 @@ export abstract class AbstractLoopbackResource {
 
   public count(filter: IFilter = null) {
     return new Promise((resolve, reject) => {
-      let url = this.apiUrl + this.getModelName() + '/count';
+      let url = this.apiUrl + this.getMethodName() + '/count';
       if (filter) {
         url = url + '?filter=' + JSON.stringify(filter);
       }
@@ -108,9 +103,9 @@ export abstract class AbstractLoopbackResource {
     });
   }
 
-  public upsert(model) {
+  public upsert(model: any) {
     return new Promise((resolve, reject) => {
-      let url = this.apiUrl + this.getModelName();
+      let url = this.apiUrl + this.getMethodName();
       var headers = new Headers();
       headers.append('Content-Type', 'application/json');
       headers.append('Accept', 'application/json');

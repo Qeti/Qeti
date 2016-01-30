@@ -1,6 +1,7 @@
 import {Component, View} from 'angular2/core';
 import * as core from 'angular2/core';
 import {CompanyResource} from './company';
+import {LoopbackApi} from './LoopbackApi';
 import {Config} from './config';
 
 declare var ag: any;
@@ -39,9 +40,9 @@ export class AppComponent {
 
   private enableFilter: boolean;
 
-  private gridOptions = {};
+  private gridOptions: any = {};
   
-  private classes = {
+  private classes: any = {
     "grid": true
   };
 
@@ -69,24 +70,24 @@ export class AppComponent {
     ];
 
     let self = this;
-    resource.count().then(function(response) {
+    resource.getApi().count().then(function(response: any) {
       var lastRow = response.count;
 
-      let datasource = {
+      let datasource: any = {
         rowCount: null, // behave as infinite scroll
         pageSize: 100,
         overflowSize: 100,
         maxConcurrentRequests: 2,
         maxPagesInCache: 5,
-        getRows: function (params) {
+        getRows: function (params: any) {
           resource
-            .find({
+            .getApi().find({
               offset: params.startRow,
               limit: datasource.pageSize
             })
             .then(function(response) {
               params.successCallback(response, lastRow);
-            }
+            });
         }
       };
 
@@ -94,9 +95,9 @@ export class AppComponent {
     });
     
     this.classes[this.config.gridTheme] = true;
-  }
   
-  function descriptionRenderer(params) {
-    return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
+    function descriptionRenderer(params: any) {
+      return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
+    }
   }
 }

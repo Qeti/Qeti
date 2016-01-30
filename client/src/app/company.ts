@@ -1,10 +1,10 @@
-import {Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
-import {AbstractLoopbackResource} from './AbstractLoopbackResource';
+import {LoopbackApi} from './LoopbackApi';
+import {BaseResource} from './BaseResource';
 import {Config} from './config';
 
-export class CompanyModel {
+class CompanyModel {
   id: number;
   Name: string;
   Code: string;
@@ -20,14 +20,17 @@ export class CompanyModel {
   }
 }
 
-@Injectable()
-export class CompanyResource extends AbstractLoopbackResource {
+export class CompanyResource extends BaseResource {
 
   constructor(http: Http, config: Config) {
-    super(CompanyModel, http, config.apiUrl);
+    super(http, config);
   }
 
-  public getModelName(): string {
+  public getMethodName(): string {
     return 'Companies';
+  }
+  
+  public getEntityClass(): any {
+    return CompanyModel;
   }
 }
