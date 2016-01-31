@@ -10,12 +10,10 @@ export abstract class BaseResource {
   protected api: LoopbackApi;
 
   constructor(http: Http, protected config: Config) {
-    this.api = new LoopbackApi(http, this.getEntityClass(), this.getMethodName(), config.apiUrl);
+    this.api = new LoopbackApi(http, this.getMethodName(), config.apiUrl);
   }
 
   public abstract getMethodName(): string;
-
-  public abstract getEntityClass(): any;
 
   public getApi(): LoopbackApi {
     return this.api;

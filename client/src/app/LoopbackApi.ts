@@ -13,35 +13,15 @@ export interface IFilter {
 
 export class LoopbackApi {
 
-  /**
-   * Model
-   */
-  private model: any;
-
-  constructor(private http: Http, entityClass: any, private methodName: string, private apiUrl: string = 'api/') {
-    this.model = (construct: any) => {
-      return new entityClass(construct);
-    };
+  constructor(private http: Http, private methodName: string, private apiUrl: string = 'api/') {
   }
 
   /**
-   * Get model name for building part of URL for API
+   * Get method name for building part of URL for API
    * @return string
    */
   private getMethodName(): string {
     return this.methodName;
-  }
-
-  private mapListToModelList(list: Array<Object>) {
-    list.forEach((item, index) => {
-      list[index] = this.mapModel(item);
-    });
-
-    return list;
-  }
-
-  private mapModel(model: any) {
-    return this.model(model);
   }
 
   public findById(id: number, filter: IFilter = null) {
@@ -57,7 +37,7 @@ export class LoopbackApi {
           if (res.error) {
             reject(res.error);
           } else {
-            resolve(this.mapModel(res));
+            resolve(res);
           }
         });
     });
@@ -77,7 +57,7 @@ export class LoopbackApi {
           if (res.error) {
             reject(res.error);
           } else {
-            resolve(this.mapListToModelList(res));
+            resolve(res);
           }
         });
     });
@@ -116,7 +96,7 @@ export class LoopbackApi {
           if (res.error) {
             reject(res.error);
           } else {
-            resolve(this.mapModel(res));
+            resolve(res);
           }
         });
     });
