@@ -1,7 +1,6 @@
 import {Component, View} from 'angular2/core';
 import * as core from 'angular2/core';
 import {CompanyResource} from './company';
-import {LoopbackApi} from './LoopbackApi';
 import {Config} from './config';
 
 declare var ag: any;

@@ -1,3 +1,5 @@
+// @deprecated Delete this file. Use lb-service.ts instead
+
 import {Http, Headers} from 'angular2/http';
 import 'rxjs/add/operator/map';
 
@@ -52,7 +54,6 @@ export class LoopbackApi {
 
       this.http.get(url)
         .map(res => res.json())
-
         .subscribe(res => {
           if (res.error) {
             reject(res.error);
@@ -72,7 +73,6 @@ export class LoopbackApi {
 
       this.http.get(url)
         .map(res => res.json())
-
         .subscribe(res => {
           if (res.error) {
             reject(res.error);
@@ -90,7 +90,7 @@ export class LoopbackApi {
       headers.append('Content-Type', 'application/json');
       headers.append('Accept', 'application/json');
 
-      this.http.put(url, JSON.stringify(model), {headers : headers})
+      this.http.put(url, JSON.stringify(model), {headers: headers})
         .map(res => res.json())
         .subscribe(res => {
           if (res.error) {

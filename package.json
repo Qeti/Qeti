@@ -7,7 +7,8 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
-    "start": "concurrent \"npm run tsc:w\" \"gulp\" \"nodemon ./server/server.js localhost 3000\" "
+    "start": "concurrent \"npm run tsc:w\" \"gulp\" \"nodemon ./server/server.js localhost 3000\" ",
+    "lb-ng": "./node_modules/loopback-sdk-angular-cli/bin/lb-ng ./server/server.js ./client/src/app/lb-services.ts -l angular2"
   },
   "dependencies": {
     "ag-grid": "^3.1.2",
@@ -33,8 +34,6 @@
   },
   "devDependencies": {
     "concurrently": "^1.0.0",
-    "lite-server": "^1.3.1",
-    "typescript": "^1.7.3",
     "gulp": "^3.9.0",
     "gulp-concat": "^2.6.0",
     "gulp-connect": "^2.3.1",
@@ -46,7 +45,10 @@
     "gulp-uglify": "^1.5.1",
     "gulp-usemin": "^0.3.16",
     "gulp-watch": "^4.3.5",
-    "jshint": "^2.5.6"
+    "jshint": "^2.5.6",
+    "lite-server": "^1.3.1",
+    "loopback-sdk-angular-cli": "^2.0.1",
+    "typescript": "^1.7.3"
   },
   "repository": {
     "type": "",

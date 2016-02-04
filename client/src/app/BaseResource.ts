@@ -1,21 +1,14 @@
 import {Injectable} from 'angular2/core';
-import {Http} from 'angular2/http';
 import 'rxjs/add/operator/map';
-import {LoopbackApi} from './LoopbackApi';
 import {Config} from './config';
 
 @Injectable()
-export abstract class BaseResource {
+export class BaseResource<T> {
 
-  protected api: LoopbackApi;
-
-  constructor(http: Http, protected config: Config) {
-    this.api = new LoopbackApi(http, this.getMethodName(), config.apiUrl);
+  constructor(protected api: T, protected config: Config) {
   }
 
-  public abstract getMethodName(): string;
-
-  public getApi(): LoopbackApi {
+  public getApi(): T {
     return this.api;
   }
 }

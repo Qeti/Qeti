@@ -1,16 +1,15 @@
-import {Http} from 'angular2/http';
+import {Injectable} from 'angular2/core';
 import 'rxjs/add/operator/map';
-import {LoopbackApi} from './LoopbackApi';
+import {CompanyApi} from './lb-services';
 import {BaseResource} from './BaseResource';
 import {Config} from './config';
 
-export class CompanyResource extends BaseResource {
+@Injectable()
+export class CompanyResource extends BaseResource<CompanyApi> {
 
-  constructor(http: Http, config: Config) {
-    super(http, config);
+  constructor(api: CompanyApi, config: Config) {
+    super(api, config);
   }
 
-  public getMethodName(): string {
-    return 'Companies';
-  }
 }
+
