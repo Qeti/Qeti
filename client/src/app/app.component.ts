@@ -1,6 +1,6 @@
 import {Component, View} from 'angular2/core';
 import * as core from 'angular2/core';
-import {CompanyResource} from './company';
+import {UserResource} from './UserResource';
 import {Config} from './config';
 
 declare var ag: any;
@@ -8,12 +8,25 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
   
 @Component({
   selector: 'my-app',
-  bindings: [CompanyResource]
+  bindings: [UserResource]
 })
 
 @View({
   directives: [(<any>window).ag.grid.AgGridNg2],
   template: `
+      <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+        <div class="form-group">
+          <label for="name">Login</label>
+          <input type="text" class="form-control" required
+            [(ngModel)]="login" >
+        </div>
+        <div class="form-group">
+          <label for="alterEgo">Password</label>
+          <input type="text"  class="form-control"
+            [(ngModel)]="password">
+        </div>
+        <button type="submit" class="btn btn-default" [disabled]="!heroForm.form.valid">Submit</button>
+      </form>
     <div>\n\
       <button (click)="agGrid.api.selectAll()">Select All</button>\n\
     </div>\n\
@@ -44,8 +57,19 @@ export class AppComponent {
   private classes: any = {
     "grid": true
   };
+  
+  private login: string;
+  private password: string;
 
-  constructor(resource: CompanyResource, private config: Config) {
+  onSubmit() {
+    let self = this;
+    this.resource.getApi().login({
+      username: self.login,
+      password: self.password,
+    });
+  }
+  
+  constructor(protected resource: UserResource, private config: Config) {
     this.enableFilter = true;
     
     this.columnDefs = [

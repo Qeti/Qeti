@@ -2,6 +2,6 @@ import {bootstrap}    from 'angular2/platform/browser'
 import {HTTP_PROVIDERS} from 'angular2/http';
 import {AppComponent} from './app.component'
 import {Config} from './config';
-import {CompanyApi} from './lb-services';
+import {CompanyApi, UserApi} from './lb-services';
 
-bootstrap(AppComponent, [HTTP_PROVIDERS, Config, CompanyApi]);
+bootstrap(AppComponent, [HTTP_PROVIDERS, Config, CompanyApi, UserApi]);
