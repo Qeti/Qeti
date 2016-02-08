@@ -1,6 +1,7 @@
 import {Component, View} from 'angular2/core';
 import * as core from 'angular2/core';
 import {UserResource} from './UserResource';
+import {CompanyResource} from './CompanyResource';
 import {Config} from './config';
 
 declare var ag: any;
@@ -8,7 +9,7 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
   
 @Component({
   selector: 'my-app',
-  bindings: [UserResource]
+  bindings: [UserResource, CompanyResource]
 })
 
 @View({
@@ -25,10 +26,11 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
           <input type="text"  class="form-control"
             [(ngModel)]="password">
         </div>
-        <button type="submit" class="btn btn-default" [disabled]="!heroForm.form.valid">Submit</button>
+        <button type="submit" class="btn btn-default" [disabled]="!heroForm.form.valid">Login</button>
       </form>
     <div>\n\
-      <button (click)="agGrid.api.selectAll()">Select All</button>\n\
+      <button class="btn" (click)="agGrid.api.selectAll()">Select All</button>\n\
+      <button class="btn btn-primary" (click)="getData()">Redraw grid</button>\n\
     </div>\n\
     <ag-grid-ng2
       #agGrid
@@ -63,13 +65,16 @@ export class AppComponent {
 
   onSubmit() {
     let self = this;
-    this.resource.getApi().login({
+    this.user.getApi().login({
       username: self.login,
       password: self.password,
     });
   }
   
-  constructor(protected resource: UserResource, private config: Config) {
+  constructor(protected user: UserResource, 
+    protected resource: CompanyResource, 
+    private config: Config) {
+
     this.enableFilter = true;
     
     this.columnDefs = [
@@ -91,9 +96,17 @@ export class AppComponent {
         width: 400
       }
     ];
-
+  
+    function descriptionRenderer(params: any) {
+      return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
+    }
+    
+    this.getData();
+  }
+  
+  public getData() {
     let self = this;
-    resource.getApi().count().then(function(response: any) {
+    self.resource.getApi().count().then(function(response: any) {
       var lastRow = response.count;
 
       let datasource: any = {
@@ -103,12 +116,12 @@ export class AppComponent {
         maxConcurrentRequests: 2,
         maxPagesInCache: 5,
         getRows: function (params: any) {
-          resource
+          self.resource
             .getApi().find({
               offset: params.startRow,
               limit: datasource.pageSize
             })
-            .then(function(response) {
+            .then(function(response: any) {
               params.successCallback(response, lastRow);
             });
         }
@@ -118,9 +131,5 @@ export class AppComponent {
     });
     
     this.classes[this.config.gridTheme] = true;
-  
-    function descriptionRenderer(params: any) {
-      return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
-    }
   }
 }
