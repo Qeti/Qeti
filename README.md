@@ -58,7 +58,7 @@ Then open url, usually it is http://0.0.0.0:3000 in case of local installation.
 1. Add the main Qeti repository as an additional git remote called "upstream"
 
     ```
-    git remote add upstream git://github.com/Qeti/Qeti.git
+    git remote add upstream git@github.com/Qeti/Qeti.git
     ```
 
 1. Install develop instance of Qeti (see instruction above).
