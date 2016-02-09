@@ -125,8 +125,8 @@ export abstract class BaseLoopBackApi {
    * Process request
    * @param params
    */
-  public request(method: string, url: string, urlParams: any = null, 
-                 params: any = null, data: any = null) {
+  public request(method: string, url: string, urlParams: any = {}, 
+                 params: any = {}, data: any = null) {
     return new Promise((resolve, reject) => {
       let requestUrl = url;
       let key: string;
@@ -135,7 +135,7 @@ export abstract class BaseLoopBackApi {
       }
       let parameters: string[] = [];
       if (auth.getAccessTokenId()) {
-        params['access_token'] = auth.getAccessTokenId();
+        params.access_token = auth.getAccessTokenId();
       }
       for (var param in params) {
         parameters.push(param + '=' + (typeof params[param] === 'object' ? JSON.stringify(params[param]) : params[param]));
@@ -153,7 +153,7 @@ export abstract class BaseLoopBackApi {
       });
 
       this.http.request(request)
-        .map(res => res.json())
+        .map(res => (res.text() != "" ? res.json() : {}))
         .subscribe(res => {
           if (res.error) {
             reject(res.error);
@@ -940,7 +940,7 @@ export class UserApi extends BaseLoopBackApi {
       .then(function(response: any) {
         var accessToken = response;
         auth.setUser(accessToken.id, accessToken.userId, accessToken.user);
-        auth.setRememberMe(response.config.params.rememberMe !== false);
+        auth.setRememberMe(true);
         auth.save();
         return response.resource;
       });
@@ -970,7 +970,7 @@ export class UserApi extends BaseLoopBackApi {
    *
    * This method returns no data.
    */
-  public logout(access_token: string) {
+  public logout() {
     let method: string = "POST";
 
     let url: string = this.getPath() + "/Users/logout";

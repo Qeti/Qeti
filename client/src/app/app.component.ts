@@ -1,3 +1,4 @@
+import {Injectable} from 'angular2/core';
 import {Component, View} from 'angular2/core';
 import * as core from 'angular2/core';
 import {UserResource} from './UserResource';
@@ -31,6 +32,7 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
     <div>\n\
       <button class="btn" (click)="agGrid.api.selectAll()">Select All</button>\n\
       <button class="btn btn-primary" (click)="getData()">Redraw grid</button>\n\
+      <button class="btn" (click)="onLogout()">Logout</button>
     </div>\n\
     <ag-grid-ng2
       #agGrid
@@ -48,6 +50,7 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
   `
 })
 
+@Injectable()
 export class AppComponent {
 
   private columnDefs: Object[];
@@ -60,8 +63,8 @@ export class AppComponent {
     "grid": true
   };
   
-  private login: string;
-  private password: string;
+  private login: string = "mnv";
+  private password: string = "12345";
 
   onSubmit() {
     let self = this;
@@ -69,6 +72,10 @@ export class AppComponent {
       username: self.login,
       password: self.password,
     });
+  }
+
+  onLogout() {
+    this.user.getApi().logout();
   }
   
   constructor(protected user: UserResource, 
