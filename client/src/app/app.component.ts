@@ -113,7 +113,7 @@ export class AppComponent {
   
   public getData() {
     let self = this;
-    self.resource.getApi().count().then(function(response: any) {
+    self.resource.getApi().count().subscribe(function(response: any) {
       var lastRow = response.count;
 
       let datasource: any = {
@@ -128,7 +128,7 @@ export class AppComponent {
               offset: params.startRow,
               limit: datasource.pageSize
             })
-            .then(function(response: any) {
+            .subscribe(function(response: any) {
               params.successCallback(response, lastRow);
             });
         }

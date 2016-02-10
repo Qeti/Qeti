@@ -127,42 +127,32 @@ export abstract class BaseLoopBackApi {
    */
   public request(method: string, url: string, urlParams: any = {}, 
                  params: any = {}, data: any = null) {
-    return new Promise((resolve, reject) => {
-      let requestUrl = url;
-      let key: string;
-      for (key in urlParams) {
-        requestUrl = requestUrl.replace(new RegExp(":" + key + "(\/|$)", "g"), urlParams[key] + "$1");
-      }
-      let parameters: string[] = [];
-      if (auth.getAccessTokenId()) {
-        params.access_token = auth.getAccessTokenId();
-      }
-      for (var param in params) {
-        parameters.push(param + '=' + (typeof params[param] === 'object' ? JSON.stringify(params[param]) : params[param]));
-      }
-      requestUrl += (parameters ? '?' : '') + parameters.join('&');
+    let requestUrl = url;
+    let key: string;
+    for (key in urlParams) {
+      requestUrl = requestUrl.replace(new RegExp(":" + key + "(\/|$)", "g"), urlParams[key] + "$1");
+    }
+    let parameters: string[] = [];
+    if (auth.getAccessTokenId()) {
+      params.access_token = auth.getAccessTokenId();
+    }
+    for (var param in params) {
+      parameters.push(param + '=' + (typeof params[param] === 'object' ? JSON.stringify(params[param]) : params[param]));
+    }
+    requestUrl += (parameters ? '?' : '') + parameters.join('&');
 
-      let headers = new Headers();
-      headers.append('Content-Type', 'application/json');
+    let headers = new Headers();
+    headers.append('Content-Type', 'application/json');
 
-      let request = new Request({
-        headers: headers,
-        method: method,
-        url: requestUrl,
-        body: data ? JSON.stringify(data) : undefined
-      });
-
-      this.http.request(request)
-        .map(res => (res.text() != "" ? res.json() : {}))
-        .subscribe(res => {
-          if (res.error) {
-            reject(res.error);
-          }
-          else {
-            resolve(res);
-          }
-        });
+    let request = new Request({
+      headers: headers,
+      method: method,
+      url: requestUrl,
+      body: data ? JSON.stringify(data) : undefined
     });
+
+    return this.http.request(request)
+      .map(res => (res.text() != "" ? res.json() : {}));
   }
 
 }
@@ -937,7 +927,7 @@ export class UserApi extends BaseLoopBackApi {
     }
 
     return this.request(method, url, urlParams, params, credentials)
-      .then(function(response: any) {
+      .subscribe(response => {
         var accessToken = response;
         auth.setUser(accessToken.id, accessToken.userId, accessToken.user);
         auth.setRememberMe(true);
@@ -980,7 +970,7 @@ export class UserApi extends BaseLoopBackApi {
     let params: any = {};
 
     return this.request(method, url, urlParams, params)
-      .then(function(response: any) {
+      .subscribe(response => {
         auth.clearUser();
         auth.clearStorage();
         return response.resource;
@@ -1093,7 +1083,7 @@ export class UserApi extends BaseLoopBackApi {
     };
 
     return this.request(method, url, urlParams)
-      .then(function(response: any) {
+      .subscribe(response => {
         auth.setCurrentUserData(response);
         return response.resource;
       });
