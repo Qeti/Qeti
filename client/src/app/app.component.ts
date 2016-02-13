@@ -16,7 +16,7 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
 @View({
   directives: [(<any>window).ag.grid.AgGridNg2],
   template: `
-      <form (ngSubmit)="onSubmit()" #heroForm="ngForm">
+      <form (ngSubmit)="onLogin()" [ngClass]="formClassed" #heroForm="ngForm">
         <div class="form-group">
           <label for="name">Login</label>
           <input type="text" class="form-control" required
@@ -24,7 +24,7 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
         </div>
         <div class="form-group">
           <label for="alterEgo">Password</label>
-          <input type="text"  class="form-control"
+          <input type="text" class="form-control"
             [(ngModel)]="password">
         </div>
         <button type="submit" class="btn btn-default" [disabled]="!heroForm.form.valid">Login</button>
@@ -58,6 +58,10 @@ export class AppComponent {
   private enableFilter: boolean;
 
   private gridOptions: any = {};
+
+  private formClassed: any = {
+    "hodden": false
+  };
   
   private classes: any = {
     "grid": true
@@ -66,16 +70,21 @@ export class AppComponent {
   private login: string = "mnv";
   private password: string = "12345";
 
-  onSubmit() {
+  onLogin() {
     let self = this;
     this.user.getApi().login({
       username: self.login,
       password: self.password,
+    })
+    .subscribe(res => {
+      this.formClassed.hidden = typeof res.id !== "undefined";
     });
   }
 
   onLogout() {
-    this.user.getApi().logout();
+    this.user.getApi().logout().subscribe(() => {
+      this.formClassed.hidden = false;
+    });
   }
   
   constructor(protected user: UserResource, 
@@ -135,7 +144,7 @@ export class AppComponent {
       };
 
       self.gridOptions.api.setDatasource(datasource);
-    });
+    })
     
     this.classes[this.config.gridTheme] = true;
   }

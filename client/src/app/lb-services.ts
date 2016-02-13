@@ -1,6 +1,10 @@
 import {Injectable} from 'angular2/core';
-import {Http, Headers, Request} from 'angular2/http';
+import {Http, Headers, Request, Response} from 'angular2/http';
+import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/share';
 
 export interface LoopBackFilterInterface {
   fields?: any;
@@ -123,7 +127,11 @@ export abstract class BaseLoopBackApi {
 
   /**
    * Process request
-   * @param params
+   * @param string  method    Request method (GET, POST, PUT)
+   * @param string  url       Request url (my-host/my-url/:id)
+   * @param any     urlParams Values of url parameters
+   * @param any     params    Parameters for building url (filter and other)
+   * @param any     data      Request body
    */
   public request(method: string, url: string, urlParams: any = {}, 
                  params: any = {}, data: any = null) {
@@ -152,9 +160,13 @@ export abstract class BaseLoopBackApi {
     });
 
     return this.http.request(request)
-      .map(res => (res.text() != "" ? res.json() : {}));
+      .map(res => (res.text() != "" ? res.json() : {}))
+      .catch(this.handleError);
   }
 
+  public handleError(error: Response) {
+    return Observable.throw(error.json().error || 'Server error');
+  }
 }
 
 
@@ -171,19 +183,11 @@ export class UserApi extends BaseLoopBackApi {
   /**
    * Find a related item by id for accessTokens.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id User id
    *
-   *  - `id` – `{*}` - User id
+   * @param any fk Foreign key for accessTokens
    *
-   *  - `fk` – `{*}` - Foreign key for accessTokens
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -203,25 +207,18 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Delete a related item by id for accessTokens.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id User id
    *
-   *  - `id` – `{*}` - User id
+   * @param any fk Foreign key for accessTokens
    *
-   *  - `fk` – `{*}` - Foreign key for accessTokens
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -238,29 +235,22 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Update a related item by id for accessTokens.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id User id
    *
-   *  - `id` – `{*}` - User id
+   * @param any fk Foreign key for accessTokens
    *
-   *  - `fk` – `{*}` - Foreign key for accessTokens
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -280,25 +270,18 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Queries accessTokens of User.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id User id
    *
-   *  - `id` – `{*}` - User id
+   * @param object filter 
    *
-   *  - `filter` – `{object=}` - 
-   *
-   * @param {function(Array.<Object>,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Array.<Object>} An empty reference that will be
+   * @returns object[] An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -320,27 +303,20 @@ export class UserApi extends BaseLoopBackApi {
       params.filter = filter;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Creates a new instance in accessTokens of this model.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id User id
    *
-   *  - `id` – `{*}` - User id
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -359,23 +335,16 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Deletes all accessTokens of this model.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id User id
    *
-   *  - `id` – `{*}` - User id
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -391,31 +360,24 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Counts accessTokens of User.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id User id
    *
-   *  - `id` – `{*}` - User id
+   * @param object where Criteria to match model instances
    *
-   *  - `where` – `{object=}` - Criteria to match model instances
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
    * Data properties:
    *
-   *  - `count` – `{number=}` - 
+   *  - `count` – `{number}` - 
    */
   public prototype$__count__accessTokens(id: any, where: any = undefined) {
     let method: string = "GET";
@@ -427,28 +389,18 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Create a new instance of the model and persist it into the data source.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -466,28 +418,18 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Create a new instance of the model and persist it into the data source.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Array.<Object>,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Array.<Object>} An empty reference that will be
+   * @returns object[] An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -505,28 +447,18 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Update an existing model instance or insert a new one into the data source.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -544,29 +476,22 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Check whether a model instance exists in the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id Model id
    *
-   *  - `id` – `{*}` - Model id
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
    * Data properties:
    *
-   *  - `exists` – `{boolean=}` - 
+   *  - `exists` – `{boolean}` - 
    */
   public exists(id: any) {
     let method: string = "GET";
@@ -578,25 +503,18 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Find a model instance by id from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id Model id
    *
-   *  - `id` – `{*}` - Model id
+   * @param object filter Filter defining fields and include
    *
-   *  - `filter` – `{object=}` - Filter defining fields and include
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -618,23 +536,16 @@ export class UserApi extends BaseLoopBackApi {
       params.filter = filter;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Find all instances of the model matched by filter from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object filter Filter defining fields, where, include, order, offset, and limit
    *
-   *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
-   *
-   * @param {function(Array.<Object>,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Array.<Object>} An empty reference that will be
+   * @returns object[] An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -655,23 +566,16 @@ export class UserApi extends BaseLoopBackApi {
       params.filter = filter;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Find first instance of the model matched by filter from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object filter Filter defining fields, where, include, order, offset, and limit
    *
-   *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -692,27 +596,20 @@ export class UserApi extends BaseLoopBackApi {
       params.filter = filter;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Update instances of the model matched by where from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object where Criteria to match model instances
    *
-   *  - `where` – `{object=}` - Criteria to match model instances
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -730,23 +627,16 @@ export class UserApi extends BaseLoopBackApi {
       params.where = where;
     }
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Delete a model instance by id from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id Model id
    *
-   *  - `id` – `{*}` - Model id
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -765,29 +655,22 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Count instances of the model matched by where from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object where Criteria to match model instances
    *
-   *  - `where` – `{object=}` - Criteria to match model instances
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
    * Data properties:
    *
-   *  - `count` – `{number=}` - 
+   *  - `count` – `{number}` - 
    */
   public count(where: any = undefined) {
     let method: string = "GET";
@@ -801,27 +684,20 @@ export class UserApi extends BaseLoopBackApi {
       params.where = where;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Update attributes for a model instance and persist it into the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id User id
    *
-   *  - `id` – `{*}` - User id
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -840,34 +716,24 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Create a change stream.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object data Request data.
    *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
+   *  - `options` – `{object}` - 
    *
-   * @param {Object} postData Request data.
-   *
-   *  - `options` – `{object=}` - 
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
    * Data properties:
    *
-   *  - `changes` – `{ReadableStream=}` - 
+   *  - `changes` – `{ReadableStream}` - 
    */
   public createChangeStream(options: any = undefined) {
     let method: string = "POST";
@@ -878,32 +744,25 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Login a user with username/email and password.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *  - `include` – `{string=}` - Related objects to include in the response. See the description of return value for more details.
+   * @param string include Related objects to include in the response. See the description of return value for more details.
    *   Default value: `user`.
    *
    *  - `rememberMe` - `boolean` - Whether the authentication credentials
    *     should be remembered in localStorage across app/browser restarts.
    *     Default: `true`.
    *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -926,35 +785,24 @@ export class UserApi extends BaseLoopBackApi {
       params.include = include;
     }
 
-    return this.request(method, url, urlParams, params, credentials)
-      .subscribe(response => {
-        var accessToken = response;
-        auth.setUser(accessToken.id, accessToken.userId, accessToken.user);
+    let result = this.request(method, url, urlParams, params, credentials)
+      .share();
+      result.subscribe(response => {
+        auth.setUser(response.id, response.userId, response.user);
         auth.setRememberMe(true);
         auth.save();
-        return response.resource;
       });
+    return result;
   }
 
   /**
    * Logout a user with access token.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    *  - `access_token` – `{string}` - Do not supply this argument, it is automatically extracted from request headers.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -969,32 +817,25 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params)
-      .subscribe(response => {
+    let result = this.request(method, url, urlParams, params)
+      .share();
+      result.subscribe(() => {
         auth.clearUser();
         auth.clearStorage();
-        return response.resource;
       });
+    return result;
   }
 
   /**
    * Confirm a user registration with email verification token.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param string uid 
    *
-   *  - `uid` – `{string}` - 
+   * @param string token 
    *
-   *  - `token` – `{string}` - 
+   * @param string redirect 
    *
-   *  - `redirect` – `{string=}` - 
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1009,28 +850,18 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Reset password for a user with email.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1045,7 +876,8 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, options);
+    let result = this.request(method, url, urlParams, params, options);
+    return result;
   }
 
   /**
@@ -1058,13 +890,7 @@ export class UserApi extends BaseLoopBackApi {
    * Get data of the currently logged user. Fail with HTTP result 401
    * when there is no user logged in.
    *
-   * @param {function(Object,Object)=} successCb
-   *    Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *    `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    */
@@ -1096,7 +922,7 @@ export class UserApi extends BaseLoopBackApi {
    * is no user logged in or the data of the current user were not fetched
    * yet.
    *
-   * @returns {Object} A User instance.
+   * @returns object A User instance.
    */
   public getCachedCurrent() {
     var data = auth.getCurrentUserData();
@@ -1115,7 +941,7 @@ export class UserApi extends BaseLoopBackApi {
   /**
    * @name lbServices.User#getCurrentId
    *
-   * @returns {Object} Id of the currently logged-in user or null.
+   * @returns object Id of the currently logged-in user or null.
    */
   public getCurrentId() {
     return auth.getCurrentUserId();
@@ -1146,22 +972,11 @@ export class CompanyApi extends BaseLoopBackApi {
   /**
    * Create a new instance of the model and persist it into the data source.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1179,28 +994,18 @@ export class CompanyApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Create a new instance of the model and persist it into the data source.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Array.<Object>,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Array.<Object>} An empty reference that will be
+   * @returns object[] An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1218,28 +1023,18 @@ export class CompanyApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Update an existing model instance or insert a new one into the data source.
    *
-   * @param {Object=} parameters Request parameters.
-   *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1257,29 +1052,22 @@ export class CompanyApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Check whether a model instance exists in the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id Model id
    *
-   *  - `id` – `{*}` - Model id
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
    * Data properties:
    *
-   *  - `exists` – `{boolean=}` - 
+   *  - `exists` – `{boolean}` - 
    */
   public exists(id: any) {
     let method: string = "GET";
@@ -1291,25 +1079,18 @@ export class CompanyApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Find a model instance by id from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id Model id
    *
-   *  - `id` – `{*}` - Model id
+   * @param object filter Filter defining fields and include
    *
-   *  - `filter` – `{object=}` - Filter defining fields and include
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1331,23 +1112,16 @@ export class CompanyApi extends BaseLoopBackApi {
       params.filter = filter;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Find all instances of the model matched by filter from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object filter Filter defining fields, where, include, order, offset, and limit
    *
-   *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
-   *
-   * @param {function(Array.<Object>,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Array.<Object>} An empty reference that will be
+   * @returns object[] An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1368,23 +1142,16 @@ export class CompanyApi extends BaseLoopBackApi {
       params.filter = filter;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Find first instance of the model matched by filter from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object filter Filter defining fields, where, include, order, offset, and limit
    *
-   *  - `filter` – `{object=}` - Filter defining fields, where, include, order, offset, and limit
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1405,27 +1172,20 @@ export class CompanyApi extends BaseLoopBackApi {
       params.filter = filter;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Update instances of the model matched by where from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object where Criteria to match model instances
    *
-   *  - `where` – `{object=}` - Criteria to match model instances
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1443,23 +1203,16 @@ export class CompanyApi extends BaseLoopBackApi {
       params.where = where;
     }
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Delete a model instance by id from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id Model id
    *
-   *  - `id` – `{*}` - Model id
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1478,29 +1231,22 @@ export class CompanyApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Count instances of the model matched by where from the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object where Criteria to match model instances
    *
-   *  - `where` – `{object=}` - Criteria to match model instances
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
    * Data properties:
    *
-   *  - `count` – `{number=}` - 
+   *  - `count` – `{number}` - 
    */
   public count(where: any = undefined) {
     let method: string = "GET";
@@ -1514,27 +1260,20 @@ export class CompanyApi extends BaseLoopBackApi {
       params.where = where;
     }
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
    * Update attributes for a model instance and persist it into the data source.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param any id PersistedModel id
    *
-   *  - `id` – `{*}` - PersistedModel id
-   *
-   * @param {Object} postData Request data.
+   * @param object data Request data.
    *
    * This method expects a subset of model properties as request parameters.
    *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
@@ -1553,34 +1292,24 @@ export class CompanyApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params, data);
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
   }
 
   /**
    * Create a change stream.
    *
-   * @param {Object=} parameters Request parameters.
+   * @param object data Request data.
    *
-   *   This method does not accept any parameters.
-   *   Supply an empty object or omit this argument altogether.
+   *  - `options` – `{object}` - 
    *
-   * @param {Object} postData Request data.
-   *
-   *  - `options` – `{object=}` - 
-   *
-   * @param {function(Object,Object)=} successCb
-   *   Success callback with two arguments: `value`, `responseHeaders`.
-   *
-   * @param {function(Object)=} errorCb Error callback with one argument:
-   *   `httpResponse`.
-   *
-   * @returns {Object} An empty reference that will be
+   * @returns object An empty reference that will be
    *   populated with the actual data once the response is returned
    *   from the server.
    *
    * Data properties:
    *
-   *  - `changes` – `{ReadableStream=}` - 
+   *  - `changes` – `{ReadableStream}` - 
    */
   public createChangeStream(options: any = undefined) {
     let method: string = "POST";
@@ -1591,7 +1320,8 @@ export class CompanyApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    return this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
 
