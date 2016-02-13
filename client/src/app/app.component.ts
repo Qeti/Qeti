@@ -121,8 +121,7 @@ export class AppComponent {
   }
   
   public getData() {
-    let self = this;
-    self.resource.getApi().count().subscribe(function(response: any) {
+    this.resource.getApi().count().subscribe((response: any) => {
       var lastRow = response.count;
 
       let datasource: any = {
@@ -131,8 +130,8 @@ export class AppComponent {
         overflowSize: 100,
         maxConcurrentRequests: 2,
         maxPagesInCache: 5,
-        getRows: function (params: any) {
-          self.resource
+        getRows: (params: any) => {
+          this.resource
             .getApi().find({
               offset: params.startRow,
               limit: datasource.pageSize
@@ -143,7 +142,7 @@ export class AppComponent {
         }
       };
 
-      self.gridOptions.api.setDatasource(datasource);
+      this.gridOptions.api.setDatasource(datasource);
     })
     
     this.classes[this.config.gridTheme] = true;
