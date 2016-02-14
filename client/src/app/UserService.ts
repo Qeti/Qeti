@@ -1,11 +1,11 @@
 import {Injectable} from 'angular2/core';
 import 'rxjs/add/operator/map';
 import {UserApi} from './lb-services';
-import {BaseResource} from './BaseResource';
+import {BaseService} from './BaseService';
 import {Config} from './config';
 
 @Injectable()
-export class UserResource extends BaseResource<UserApi> {
+export class UserService extends BaseService<UserApi> {
 
   constructor(api: UserApi, config: Config) {
     super(api, config);

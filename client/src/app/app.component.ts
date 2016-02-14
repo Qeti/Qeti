@@ -1,8 +1,9 @@
 import {Injectable} from 'angular2/core';
 import {Component, View} from 'angular2/core';
 import * as core from 'angular2/core';
-import {UserResource} from './UserResource';
-import {CompanyResource} from './CompanyResource';
+import {UserService} from './UserService';
+import {CompanyService} from './CompanyService';
+//import {CompanyApi as CompanyService} from './lb-services';
 import {Config} from './config';
 
 declare var ag: any;
@@ -10,7 +11,7 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
   
 @Component({
   selector: 'my-app',
-  bindings: [UserResource, CompanyResource]
+  bindings: [UserService, CompanyService]
 })
 
 @View({
@@ -74,7 +75,7 @@ export class AppComponent {
     let self = this;
     this.user.getApi().login({
       username: self.login,
-      password: self.password,
+      password: self.password
     })
     .subscribe(res => {
       this.formClassed.hidden = typeof res.id !== "undefined";
@@ -87,8 +88,8 @@ export class AppComponent {
     });
   }
   
-  constructor(protected user: UserResource, 
-    protected resource: CompanyResource, 
+  constructor(protected user: UserService, 
+    protected service: CompanyService, 
     private config: Config) {
 
     this.enableFilter = true;
@@ -121,8 +122,8 @@ export class AppComponent {
   }
   
   public getData() {
-    this.resource.getApi().count().subscribe((response: any) => {
-      var lastRow = response.count;
+    this.service.getApi().count().subscribe((response: any) => {
+      let lastRow = response.count;
 
       let datasource: any = {
         rowCount: null, // behave as infinite scroll
@@ -131,7 +132,7 @@ export class AppComponent {
         maxConcurrentRequests: 2,
         maxPagesInCache: 5,
         getRows: (params: any) => {
-          this.resource
+          this.service
             .getApi().find({
               offset: params.startRow,
               limit: datasource.pageSize
@@ -143,7 +144,7 @@ export class AppComponent {
       };
 
       this.gridOptions.api.setDatasource(datasource);
-    })
+    });
     
     this.classes[this.config.gridTheme] = true;
   }

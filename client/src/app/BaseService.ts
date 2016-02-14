@@ -3,7 +3,7 @@ import 'rxjs/add/operator/map';
 import {Config} from './config';
 
 @Injectable()
-export class BaseResource<T> {
+export class BaseService<T> {
 
   constructor(protected api: T, protected config: Config) {
   }
