@@ -744,7 +744,7 @@ export class UserApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    let result = this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params, options);
     return result;
   }
 
@@ -1320,7 +1320,7 @@ export class CompanyApi extends BaseLoopBackApi {
 
     let params: any = {};
 
-    let result = this.request(method, url, urlParams, params);
+    let result = this.request(method, url, urlParams, params, options);
     return result;
   }
 
