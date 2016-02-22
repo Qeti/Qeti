@@ -14,6 +14,7 @@ var paths = {
   scripts: 'client/src/js/**/*.*',
   scripts_vendor: 'bower_components/**/*.min.js',
   styles: 'client/src/css/**/*.*',
+  styles_app: 'client/src/app/**/*.css',
   styles_vendor: 'bower_components/**/*.min.css',
   maps_vendor: 'bower_components/**/*.map',
   images: 'client/src/img/**/*.*',
@@ -46,7 +47,7 @@ gulp.task('copy-bower_fonts', function () {
 /**
  * Handle custom files
  */
-gulp.task('build-custom', ['custom-images', 'custom-js', 'custom-less']);
+gulp.task('build-custom', ['custom-images', 'custom-js', 'custom-less', 'custom-app-less']);
 
 gulp.task('custom-images', function () {
   return gulp.src(paths.images)
@@ -66,6 +67,11 @@ gulp.task('custom-less', function () {
       .pipe(gulp.dest('client/build/css'));
 });
 
+gulp.task('custom-app-less', function () {
+  return gulp.src(paths.styles_app)
+      .pipe(less())
+      .pipe(gulp.dest('client/build/app'));
+});
 
 /**
  * Handle vendor files
@@ -88,7 +94,7 @@ gulp.task('vendor-maps', function () {
 /**
  * Handle custom files
  */
-gulp.task('build-custom-dev', ['custom-images', 'custom-js-dev', 'custom-less-dev']);
+gulp.task('build-custom-dev', ['custom-images', 'custom-js-dev', 'custom-less-dev', 'custom-app-less-dev']);
 
 gulp.task('custom-js-dev', function () {
   return gulp.src(paths.scripts)
@@ -107,12 +113,21 @@ gulp.task('custom-less-dev', function () {
       .pipe(gulp.dest('client/build/css'));
 });
 
+gulp.task('custom-app-less-dev', function () {
+  return gulp.src(paths.styles_app)
+      .pipe(sourcemaps.init())
+        .pipe(less())
+      .pipe(sourcemaps.write('../app'))
+      .pipe(gulp.dest('client/build/app'));
+});
+
 /**
  * Watch custom files
  */
 gulp.task('watch', function () {
   gulp.watch([paths.images], ['custom-images']);
   gulp.watch([paths.styles], ['custom-less-dev']);
+  gulp.watch([paths.styles_app], ['custom-app-less-dev']);
   gulp.watch([paths.scripts], ['custom-js-dev']);
   gulp.watch([paths.views], ['usemin']);
 });

@@ -822,6 +822,10 @@ export class UserApi extends BaseLoopBackApi {
       result.subscribe(() => {
         auth.clearUser();
         auth.clearStorage();
+      },
+      () => {
+        auth.clearUser();
+        auth.clearStorage();
       });
     return result;
   }

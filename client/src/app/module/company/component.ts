@@ -1,39 +1,27 @@
 import {Injectable} from 'angular2/core';
 import {Component, View} from 'angular2/core';
 import * as core from 'angular2/core';
-import {UserService} from './UserService';
-import {CompanyService} from './CompanyService';
-//import {CompanyApi as CompanyService} from './lb-services';
-import {Config} from './config';
+import {RouterLink} from 'angular2/router';
+import {UserService} from '../user/service';
+import {CompanyService} from './service';
+//import {CompanyApi as CompanyService} from '../../lb-services';
+import {Config} from '../../config';
 
 declare var ag: any;
 ag.grid.initialiseAgGridWithAngular2({core: core});
   
 @Component({
-  selector: 'my-app',
+  selector: 'company',
   bindings: [UserService, CompanyService]
 })
 
 @View({
-  directives: [(<any>window).ag.grid.AgGridNg2],
+  directives: [(<any>window).ag.grid.AgGridNg2, RouterLink],
   template: `
-      <form (ngSubmit)="onLogin()" [ngClass]="formClassed" #heroForm="ngForm">
-        <div class="form-group">
-          <label for="name">Login</label>
-          <input type="text" class="form-control" required
-            [(ngModel)]="login" >
-        </div>
-        <div class="form-group">
-          <label for="alterEgo">Password</label>
-          <input type="text" class="form-control"
-            [(ngModel)]="password">
-        </div>
-        <button type="submit" class="btn btn-default" [disabled]="!heroForm.form.valid">Login</button>
-      </form>
     <div>\n\
       <button class="btn" (click)="agGrid.api.selectAll()">Select All</button>\n\
       <button class="btn btn-primary" (click)="getData()">Redraw grid</button>\n\
-      <button class="btn" (click)="onLogout()">Logout</button>
+      <a [routerLink]="['Home']">Home</a>
     </div>\n\
     <ag-grid-ng2
       #agGrid
@@ -52,7 +40,7 @@ ag.grid.initialiseAgGridWithAngular2({core: core});
 })
 
 @Injectable()
-export class AppComponent {
+export class Company {
 
   private columnDefs: Object[];
 
@@ -60,34 +48,10 @@ export class AppComponent {
 
   private gridOptions: any = {};
 
-  private formClassed: any = {
-    "hodden": false
-  };
-  
   private classes: any = {
     "grid": true
   };
-  
-  private login: string = "mnv";
-  private password: string = "12345";
 
-  onLogin() {
-    let self = this;
-    this.user.getApi().login({
-      username: self.login,
-      password: self.password
-    })
-    .subscribe(res => {
-      this.formClassed.hidden = typeof res.id !== "undefined";
-    });
-  }
-
-  onLogout() {
-    this.user.getApi().logout().subscribe(() => {
-      this.formClassed.hidden = false;
-    });
-  }
-  
   constructor(protected user: UserService, 
     protected service: CompanyService, 
     private config: Config) {
