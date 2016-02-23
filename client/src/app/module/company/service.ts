@@ -1,14 +1,11 @@
-import {Injectable} from 'angular2/core';
-import 'rxjs/add/operator/map';
 import {CompanyApi} from '../../lb-services';
-import {BaseService} from '../../BaseService';
-import {Config} from '../../config';
+import {Http} from 'angular2/http';
+//import {Config} from '../../config';
 
-@Injectable()
-export class CompanyService extends BaseService<CompanyApi> {
+export class CompanyService extends CompanyApi {
 
-  constructor(api: CompanyApi, config: Config) {
-    super(api, config);
+  constructor(http: Http) {
+    super(http);
   }
 
 }

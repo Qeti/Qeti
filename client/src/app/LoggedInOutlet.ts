@@ -22,7 +22,6 @@ export class LoggedInRouterOutlet extends RouterOutlet {
   }
 
   activate(instruction: ComponentInstruction) {
-    //var url = this.parentRouter.lastNavigationAttempt;
     var path = instruction.urlPath;
     if (!this.publicRoutes[path] && !this.authHttp.isAuthenticated()) {
       this.parentRouter.navigate(['Login']);

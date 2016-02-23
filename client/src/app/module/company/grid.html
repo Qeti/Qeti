@@ -1,0 +1,17 @@
+<div>
+  <button class="btn btn-primary" (click)="getData()">Redraw grid</button>
+  <a [routerLink]="['Home']">Home</a>
+</div>
+<ag-grid-ng2
+  #agGrid
+  (ready)="agGrid.api.sizeColumnsToFit()"
+  enableColResize
+  enableSorting
+  sizeColumnsToFit
+  virtualPaging
+  [ngClass]="classes"
+  [gridOptions]="gridOptions"
+  [enableFilter]="enableFilter"
+  [columnDefs]="columnDefs"
+>
+</ag-grid-ng2>
