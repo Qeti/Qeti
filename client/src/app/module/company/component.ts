@@ -37,7 +37,7 @@ export class Company {
       cellRenderer: function (params: any) {
         return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
       },
-      width: 400
+      width: 300
     }
   ];
 

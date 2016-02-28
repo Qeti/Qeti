@@ -1,6 +1,9 @@
 <div>
-  <button class="btn btn-primary" (click)="getData()">Redraw grid</button>
-  <a [routerLink]="['Home']">Home</a>
+  <ul class="nav nav-tabs">
+    <li role="presentation"><a [routerLink]="['Home']">Home</a></li>
+    <li role="presentation" class="active"><a [routerLink]="['Company']">Company</a></li>
+    <li role="presentation"><a [routerLink]="['Login']">Login</a></li>
+  </ul>
 </div>
 <ag-grid-ng2
   #agGrid
@@ -15,3 +18,9 @@
   [columnDefs]="columnDefs"
 >
 </ag-grid-ng2>
+
+<nav>
+  <ul class="pager">
+    <li class="pull-right"><a (click)="getData()">Redraw</a></li>
+  </ul>
+</nav>

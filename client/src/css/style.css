@@ -4,7 +4,7 @@ html {
 
 body {
 	margin: 0;
-	padding: 0 15px;
+	padding: 0;
   height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -14,7 +14,7 @@ header {
 	width: 100%;
 	min-width: 430px;
 	margin: 0 auto 30px;
-	padding: 30px 0 10px;
+	padding: 30px 30px 10px 30px;
 }
 
 .main {
@@ -34,6 +34,7 @@ company {
   justify-content: space-between;
   align-items: stretch;
   align-content: stretch;
+  padding: 0 30px;
 }
 
 .grid {
@@ -60,4 +61,8 @@ footer {
 .image-cell {
   max-height: 100%;
   max-width: 100%;
+}
+
+router-outlet {
+  display: none;
 }
