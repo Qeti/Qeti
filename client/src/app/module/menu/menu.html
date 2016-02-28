@@ -1,0 +1,47 @@
+<nav class="navbar navbar-inverse navbar-static-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" [routerLink]="['Home']">Qeti</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a [routerLink]="['Company']">Company</a></li>
+        <li><a [routerLink]="['User']">User</a></li>
+        <li><a [routerLink]="['Home']">Home</a></li>
+        <li><a [routerLink]="['Login']">Login</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Other <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a [routerLink]="['Home']">Home</a></li>
+            <li><a [routerLink]="['Login']">Login</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
+        <button type="submit" class="btn btn-default">Search</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">New <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Company</a></li>
+            <li><a href="#">User</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Task</a></li>
+          </ul>
+        </li>
+        <li *ngIf="isAuthenticated()"><a role="button" (click)="logout()">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

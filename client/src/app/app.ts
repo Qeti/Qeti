@@ -5,7 +5,7 @@ import {LoggedInRouterOutlet} from './LoggedInOutlet';
 import {Home} from './module/home/home';
 import {Login} from './module/login/login';
 import {Signup} from './module/signup/signup';
-import {Company} from './module/company/component';
+import {Workspace} from './module/workspace/workspace';
 
 @Component({
   selector: 'app'
@@ -19,7 +19,7 @@ import {Company} from './module/company/component';
   { path: '/home', component: Home, as: 'Home' },
   { path: '/login', component: Login, as: 'Login' },
   { path: '/signup', component: Signup, as: 'Signup' },
-  { path: '/company', component: Company, as: 'Company' }
+  { path: '/workspace/...', component: Workspace, as: 'Workspace' }
 ])
 
 export class App {

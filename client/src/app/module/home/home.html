@@ -4,7 +4,7 @@
     <h2 *ngIf="isAuthenticated()">You are logged in</h2>
     <p>Click any of the buttons to call an API and get a response</p>
     <p *ngIf="isAuthenticated()"><a class="btn btn-primary btn-lg" role="button" (click)="logout()">Logout</a></p>
-    <p *ngIf="isAuthenticated()"><a [routerLink]="['Company']">Company section</a></p>
+    <p *ngIf="isAuthenticated()"><a [routerLink]="['Workspace']">Workspace</a></p>
     <h2 *ngIf="response">The response of calling the <span class="red">{{api}}</span> API is:</h2>
     <h3 *ngIf="response">{{response}}</h3>
   </div>
