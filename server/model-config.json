@@ -13,7 +13,7 @@
       "./mixins"
     ]
   },
-  "User": {
+  "user": {
     "dataSource": "master"
   },
   "AccessToken": {
@@ -33,6 +33,10 @@
     "public": false
   },
   "Company": {
+    "dataSource": "master",
+    "public": true
+  },
+  "CompanyType": {
     "dataSource": "master",
     "public": true
   }

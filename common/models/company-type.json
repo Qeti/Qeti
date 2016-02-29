@@ -1,5 +1,5 @@
 {
-  "name": "Company",
+  "name": "CompanyType",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -7,6 +7,11 @@
   },
   "properties": {
     "Name": {
+      "type": "string",
+      "required": true,
+      "length": 250
+    },
+    "Code": {
       "type": "string",
       "required": true,
       "length": 250
@@ -45,13 +50,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "types": {
-      "type": "hasOne",
-      "model": "CompanyType",
-      "foreignKey": "typeId"
-    }
-  },
+  "relations": {},
   "acls": [
     {
       "principalType": "ROLE",

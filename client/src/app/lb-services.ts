@@ -1,4 +1,4 @@
-import {Injectable} from 'angular2/core';
+import {Injectable, Inject} from 'angular2/core';
 import {Http, Headers, Request, Response} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
@@ -109,7 +109,7 @@ export abstract class BaseLoopBackApi {
 
   protected path: string;
 
-  constructor(protected http: Http) {
+  constructor(@Inject(Http) protected http: Http) {
     this.init();
   }
 
@@ -176,7 +176,7 @@ export abstract class BaseLoopBackApi {
 @Injectable()
 export class UserApi extends BaseLoopBackApi {
 
-  constructor(http: Http) {
+  constructor(@Inject(Http) http: Http) {
     super(http);
   }
 
@@ -196,10 +196,10 @@ export class UserApi extends BaseLoopBackApi {
    * This usually means the response is a `User` object.)
    * </em>
    */
-  public prototype$__findById__accessTokens(id: any, fk: any) {
+  public __findById__accessTokens(id: any, fk: any) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users/:id/accessTokens/:fk";
+    let url: string = this.getPath() + "/users/:id/accessTokens/:fk";
     let urlParams: any = {
       id: id,
       fk: fk
@@ -224,10 +224,10 @@ export class UserApi extends BaseLoopBackApi {
    *
    * This method returns no data.
    */
-  public prototype$__destroyById__accessTokens(id: any, fk: any) {
+  public __destroyById__accessTokens(id: any, fk: any) {
     let method: string = "DELETE";
 
-    let url: string = this.getPath() + "/Users/:id/accessTokens/:fk";
+    let url: string = this.getPath() + "/users/:id/accessTokens/:fk";
     let urlParams: any = {
       id: id,
       fk: fk
@@ -259,10 +259,10 @@ export class UserApi extends BaseLoopBackApi {
    * This usually means the response is a `User` object.)
    * </em>
    */
-  public prototype$__updateById__accessTokens(id: any, fk: any, data: any = undefined) {
+  public __updateById__accessTokens(id: any, fk: any, data: any = undefined) {
     let method: string = "PUT";
 
-    let url: string = this.getPath() + "/Users/:id/accessTokens/:fk";
+    let url: string = this.getPath() + "/users/:id/accessTokens/:fk";
     let urlParams: any = {
       id: id,
       fk: fk
@@ -275,7 +275,7 @@ export class UserApi extends BaseLoopBackApi {
   }
 
   /**
-   * Queries accessTokens of User.
+   * Queries accessTokens of user.
    *
    * @param any id User id
    *
@@ -290,10 +290,10 @@ export class UserApi extends BaseLoopBackApi {
    * This usually means the response is a `User` object.)
    * </em>
    */
-  public prototype$__get__accessTokens(id: any, filter: LoopBackFilterInterface = undefined) {
+  public __get__accessTokens(id: any, filter: LoopBackFilterInterface = undefined) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users/:id/accessTokens";
+    let url: string = this.getPath() + "/users/:id/accessTokens";
     let urlParams: any = {
       id: id
     };
@@ -325,10 +325,10 @@ export class UserApi extends BaseLoopBackApi {
    * This usually means the response is a `User` object.)
    * </em>
    */
-  public prototype$__create__accessTokens(id: any, data: any = undefined) {
+  public __create__accessTokens(id: any, data: any = undefined) {
     let method: string = "POST";
 
-    let url: string = this.getPath() + "/Users/:id/accessTokens";
+    let url: string = this.getPath() + "/users/:id/accessTokens";
     let urlParams: any = {
       id: id
     };
@@ -350,10 +350,10 @@ export class UserApi extends BaseLoopBackApi {
    *
    * This method returns no data.
    */
-  public prototype$__delete__accessTokens(id: any) {
+  public __delete__accessTokens(id: any) {
     let method: string = "DELETE";
 
-    let url: string = this.getPath() + "/Users/:id/accessTokens";
+    let url: string = this.getPath() + "/users/:id/accessTokens";
     let urlParams: any = {
       id: id
     };
@@ -365,7 +365,7 @@ export class UserApi extends BaseLoopBackApi {
   }
 
   /**
-   * Counts accessTokens of User.
+   * Counts accessTokens of user.
    *
    * @param any id User id
    *
@@ -379,10 +379,10 @@ export class UserApi extends BaseLoopBackApi {
    *
    *  - `count` – `{number}` - 
    */
-  public prototype$__count__accessTokens(id: any, where: any = undefined) {
+  public __count__accessTokens(id: any, where: any = undefined) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users/:id/accessTokens/count";
+    let url: string = this.getPath() + "/users/:id/accessTokens/count";
     let urlParams: any = {
       id: id
     };
@@ -412,7 +412,7 @@ export class UserApi extends BaseLoopBackApi {
   public create(data: any = undefined) {
     let method: string = "POST";
 
-    let url: string = this.getPath() + "/Users";
+    let url: string = this.getPath() + "/users";
     let urlParams: any = {
     };
 
@@ -441,7 +441,7 @@ export class UserApi extends BaseLoopBackApi {
   public createMany(data: any = undefined) {
     let method: string = "POST";
 
-    let url: string = this.getPath() + "/Users";
+    let url: string = this.getPath() + "/users";
     let urlParams: any = {
     };
 
@@ -470,7 +470,7 @@ export class UserApi extends BaseLoopBackApi {
   public upsert(data: any = undefined) {
     let method: string = "PUT";
 
-    let url: string = this.getPath() + "/Users";
+    let url: string = this.getPath() + "/users";
     let urlParams: any = {
     };
 
@@ -496,7 +496,7 @@ export class UserApi extends BaseLoopBackApi {
   public exists(id: any) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users/:id/exists";
+    let url: string = this.getPath() + "/users/:id/exists";
     let urlParams: any = {
       id: id
     };
@@ -526,7 +526,7 @@ export class UserApi extends BaseLoopBackApi {
   public findById(id: any, filter: LoopBackFilterInterface = undefined) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users/:id";
+    let url: string = this.getPath() + "/users/:id";
     let urlParams: any = {
       id: id
     };
@@ -557,7 +557,7 @@ export class UserApi extends BaseLoopBackApi {
   public find(filter: LoopBackFilterInterface = undefined) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users";
+    let url: string = this.getPath() + "/users";
     let urlParams: any = {
     };
 
@@ -587,7 +587,7 @@ export class UserApi extends BaseLoopBackApi {
   public findOne(filter: LoopBackFilterInterface = undefined) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users/findOne";
+    let url: string = this.getPath() + "/users/findOne";
     let urlParams: any = {
     };
 
@@ -618,7 +618,7 @@ export class UserApi extends BaseLoopBackApi {
   public updateAll(where: any = undefined, data: any = undefined) {
     let method: string = "POST";
 
-    let url: string = this.getPath() + "/Users/update";
+    let url: string = this.getPath() + "/users/update";
     let urlParams: any = {
     };
 
@@ -648,7 +648,7 @@ export class UserApi extends BaseLoopBackApi {
   public deleteById(id: any) {
     let method: string = "DELETE";
 
-    let url: string = this.getPath() + "/Users/:id";
+    let url: string = this.getPath() + "/users/:id";
     let urlParams: any = {
       id: id
     };
@@ -675,7 +675,7 @@ export class UserApi extends BaseLoopBackApi {
   public count(where: any = undefined) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users/count";
+    let url: string = this.getPath() + "/users/count";
     let urlParams: any = {
     };
 
@@ -706,10 +706,10 @@ export class UserApi extends BaseLoopBackApi {
    * This usually means the response is a `User` object.)
    * </em>
    */
-  public prototype$updateAttributes(id: any, data: any = undefined) {
+  public updateAttributes(id: any, data: any = undefined) {
     let method: string = "PUT";
 
-    let url: string = this.getPath() + "/Users/:id";
+    let url: string = this.getPath() + "/users/:id";
     let urlParams: any = {
       id: id
     };
@@ -738,7 +738,7 @@ export class UserApi extends BaseLoopBackApi {
   public createChangeStream(options: any = undefined) {
     let method: string = "POST";
 
-    let url: string = this.getPath() + "/Users/change-stream";
+    let url: string = this.getPath() + "/users/change-stream";
     let urlParams: any = {
     };
 
@@ -773,10 +773,10 @@ export class UserApi extends BaseLoopBackApi {
    * 
    *
    */
-  public login(credentials: any, include: string = "user") {
+  public login(credentials: any, include: any = "user") {
     let method: string = "POST";
 
-    let url: string = this.getPath() + "/Users/login";
+    let url: string = this.getPath() + "/users/login";
     let urlParams: any = {
     };
 
@@ -811,7 +811,7 @@ export class UserApi extends BaseLoopBackApi {
   public logout() {
     let method: string = "POST";
 
-    let url: string = this.getPath() + "/Users/logout";
+    let url: string = this.getPath() + "/users/logout";
     let urlParams: any = {
     };
 
@@ -820,10 +820,6 @@ export class UserApi extends BaseLoopBackApi {
     let result = this.request(method, url, urlParams, params)
       .share();
       result.subscribe(() => {
-        auth.clearUser();
-        auth.clearStorage();
-      },
-      () => {
         auth.clearUser();
         auth.clearStorage();
       });
@@ -848,7 +844,7 @@ export class UserApi extends BaseLoopBackApi {
   public confirm(uid: string, token: string, redirect: string = undefined) {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users/confirm";
+    let url: string = this.getPath() + "/users/confirm";
     let urlParams: any = {
     };
 
@@ -874,7 +870,7 @@ export class UserApi extends BaseLoopBackApi {
   public resetPassword(options: any) {
     let method: string = "POST";
 
-    let url: string = this.getPath() + "/Users/reset";
+    let url: string = this.getPath() + "/users/reset";
     let urlParams: any = {
     };
 
@@ -901,7 +897,7 @@ export class UserApi extends BaseLoopBackApi {
   public getCurrent(): any {
     let method: string = "GET";
 
-    let url: string = this.getPath() + "/Users" + "/:id";
+    let url: string = this.getPath() + "/users" + "/:id";
     let urlParams: any = {
       id: function() {
         var id = auth.getCurrentUserId();
@@ -960,17 +956,136 @@ export class UserApi extends BaseLoopBackApi {
   }
 }
 
-
-
-
 /**
  * Api for the `Company` model.
  */
 @Injectable()
 export class CompanyApi extends BaseLoopBackApi {
 
-  constructor(http: Http) {
+  constructor(@Inject(Http) http: Http) {
     super(http);
+  }
+
+  /**
+   * Fetches hasOne relation types.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param boolean refresh 
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Company` object.)
+   * </em>
+   */
+  public __get__types(id: any, refresh: boolean = undefined) {
+    let method: string = "GET";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+    if (refresh !== undefined) {
+      params.refresh = refresh;
+    }
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in types of this model.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Company` object.)
+   * </em>
+   */
+  public __create__types(id: any, data: any = undefined) {
+    let method: string = "POST";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Update types of this model.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `Company` object.)
+   * </em>
+   */
+  public __update__types(id: any, data: any = undefined) {
+    let method: string = "PUT";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Deletes types of this model.
+   *
+   * @param any id PersistedModel id
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public __destroy__types(id: any) {
+    let method: string = "DELETE";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
   }
 
   /**
@@ -1286,7 +1401,7 @@ export class CompanyApi extends BaseLoopBackApi {
    * This usually means the response is a `Company` object.)
    * </em>
    */
-  public prototype$updateAttributes(id: any, data: any = undefined) {
+  public updateAttributes(id: any, data: any = undefined) {
     let method: string = "PUT";
 
     let url: string = this.getPath() + "/Companies/:id";
@@ -1338,8 +1453,534 @@ export class CompanyApi extends BaseLoopBackApi {
   }
 }
 
+/**
+ * Api for the `CompanyType` model.
+ */
+@Injectable()
+export class CompanyTypeApi extends BaseLoopBackApi {
+
+  constructor(@Inject(Http) http: Http) {
+    super(http);
+  }
+
+  /**
+   * Create a new instance of the model and persist it into the data source.
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public create(data: any = undefined) {
+    let method: string = "POST";
+
+    let url: string = this.getPath() + "/CompanyTypes";
+    let urlParams: any = {
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Create a new instance of the model and persist it into the data source.
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object[] An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public createMany(data: any = undefined) {
+    let method: string = "POST";
+
+    let url: string = this.getPath() + "/CompanyTypes";
+    let urlParams: any = {
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Update an existing model instance or insert a new one into the data source.
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public upsert(data: any = undefined) {
+    let method: string = "PUT";
+
+    let url: string = this.getPath() + "/CompanyTypes";
+    let urlParams: any = {
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Check whether a model instance exists in the data source.
+   *
+   * @param any id Model id
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * Data properties:
+   *
+   *  - `exists` – `{boolean}` - 
+   */
+  public exists(id: any) {
+    let method: string = "GET";
+
+    let url: string = this.getPath() + "/CompanyTypes/:id/exists";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
+
+  /**
+   * Find a model instance by id from the data source.
+   *
+   * @param any id Model id
+   *
+   * @param object filter Filter defining fields and include
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public findById(id: any, filter: LoopBackFilterInterface = undefined) {
+    let method: string = "GET";
+
+    let url: string = this.getPath() + "/CompanyTypes/:id";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+    if (filter !== undefined) {
+      params.filter = filter;
+    }
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
+
+  /**
+   * Find all instances of the model matched by filter from the data source.
+   *
+   * @param object filter Filter defining fields, where, include, order, offset, and limit
+   *
+   * @returns object[] An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public find(filter: LoopBackFilterInterface = undefined) {
+    let method: string = "GET";
+
+    let url: string = this.getPath() + "/CompanyTypes";
+    let urlParams: any = {
+    };
+
+    let params: any = {};
+    if (filter !== undefined) {
+      params.filter = filter;
+    }
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
+
+  /**
+   * Find first instance of the model matched by filter from the data source.
+   *
+   * @param object filter Filter defining fields, where, include, order, offset, and limit
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public findOne(filter: LoopBackFilterInterface = undefined) {
+    let method: string = "GET";
+
+    let url: string = this.getPath() + "/CompanyTypes/findOne";
+    let urlParams: any = {
+    };
+
+    let params: any = {};
+    if (filter !== undefined) {
+      params.filter = filter;
+    }
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
+
+  /**
+   * Update instances of the model matched by where from the data source.
+   *
+   * @param object where Criteria to match model instances
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * The number of instances updated
+   */
+  public updateAll(where: any = undefined, data: any = undefined) {
+    let method: string = "POST";
+
+    let url: string = this.getPath() + "/CompanyTypes/update";
+    let urlParams: any = {
+    };
+
+    let params: any = {};
+    if (where !== undefined) {
+      params.where = where;
+    }
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Delete a model instance by id from the data source.
+   *
+   * @param any id Model id
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public deleteById(id: any) {
+    let method: string = "DELETE";
+
+    let url: string = this.getPath() + "/CompanyTypes/:id";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
+
+  /**
+   * Count instances of the model matched by where from the data source.
+   *
+   * @param object where Criteria to match model instances
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * Data properties:
+   *
+   *  - `count` – `{number}` - 
+   */
+  public count(where: any = undefined) {
+    let method: string = "GET";
+
+    let url: string = this.getPath() + "/CompanyTypes/count";
+    let urlParams: any = {
+    };
+
+    let params: any = {};
+    if (where !== undefined) {
+      params.where = where;
+    }
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
+
+  /**
+   * Update attributes for a model instance and persist it into the data source.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public updateAttributes(id: any, data: any = undefined) {
+    let method: string = "PUT";
+
+    let url: string = this.getPath() + "/CompanyTypes/:id";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Create a change stream.
+   *
+   * @param object data Request data.
+   *
+   *  - `options` – `{object}` - 
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * Data properties:
+   *
+   *  - `changes` – `{ReadableStream}` - 
+   */
+  public createChangeStream(options: any = undefined) {
+    let method: string = "POST";
+
+    let url: string = this.getPath() + "/CompanyTypes/change-stream";
+    let urlParams: any = {
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, options);
+    return result;
+  }
+
+  /**
+   * Fetches hasOne relation types.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param boolean refresh 
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public __get__Company__types(id: any, refresh: boolean = undefined) {
+    let method: string = "GET";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+    if (refresh !== undefined) {
+      params.refresh = refresh;
+    }
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in types of this model.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public __create__Company__types(id: any, data: any = undefined) {
+    let method: string = "POST";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Creates a new instance in types of this model.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object[] An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public __createMany__Company__types(id: any, data: any = undefined) {
+    let method: string = "POST";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Update types of this model.
+   *
+   * @param any id PersistedModel id
+   *
+   * @param object data Request data.
+   *
+   * This method expects a subset of model properties as request parameters.
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * <em>
+   * (The remote method definition does not provide any description.
+   * This usually means the response is a `CompanyType` object.)
+   * </em>
+   */
+  public __update__Company__types(id: any, data: any = undefined) {
+    let method: string = "PUT";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params, data);
+    return result;
+  }
+
+  /**
+   * Deletes types of this model.
+   *
+   * @param any id PersistedModel id
+   *
+   * @returns object An empty reference that will be
+   *   populated with the actual data once the response is returned
+   *   from the server.
+   *
+   * This method returns no data.
+   */
+  public __destroy__Company__types(id: any) {
+    let method: string = "DELETE";
+
+    let url: string = this.getPath() + "/Companies/:id/types";
+    let urlParams: any = {
+      id: id
+    };
+
+    let params: any = {};
+
+    let result = this.request(method, url, urlParams, params);
+    return result;
+  }
 
 
+  /**
+   * The name of the model represented by this $resource,
+   * i.e. `CompanyType`.
+   */
+  public getModelName() {
+    return "CompanyType";
+  }
+}
 
 
 
