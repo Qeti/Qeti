@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
+    "target": "es5",
     "module": "system",
     "moduleResolution": "node",
     "sourceMap": true,
@@ -8,10 +8,11 @@
     "experimentalDecorators": true,
     "removeComments": true,
     "outDir": "client/build/app",
-    "out": "client/build/app",
-    "noImplicitAny": true
+    "noImplicitAny": false
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "typings/main",
+    "typings/main.d.ts"
   ]
 }

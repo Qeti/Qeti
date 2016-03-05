@@ -26,79 +26,40 @@ do
   fi
 done
 
-# Install Strongloop (sudo npm install strongloop -g)?
-strongloop="default"
-until [ $strongloop == "y" ] || [ $strongloop == "n" ]
-do
-  echo "$(tput setaf 2)Install Strongloop?$(tput sgr0) (y/n) [y] >"|tr -d '\n'
-  read strongloop
-  if [ -z $strongloop ]
-  then
-    strongloop="y"
-  fi
-done
-
-
 
 ####### Installation
 
-# 1. Install Bower
-echo "----------"
-tput setaf 2
-echo "1/6 Bower installation (sudo npm install bower -g)"
-tput sgr0
-echo "----------"
-sudo npm install bower -g
+stage=1
+stages=3
 
-# 2. Install Strongloop
+# Install required Node modules
 echo "----------"
 tput setaf 2
-echo "2/6 Strongloop installation (sudo npm install strongloop -g)"
-tput sgr0
-echo "----------"
-if [ $strongloop == "y" ]
-then
-  sudo npm install strongloop -g
-else
-  tput setaf 3
-  echo "Skip"
-  tput sgr0
-fi
-
-# 3. Install required Node modules
-echo "----------"
-tput setaf 2
-echo "3/6 Installation of required Node modules (npm install)"
+echo "$stage/$stages Installation of required Node modules (npm install)"
 tput sgr0
 echo "----------"
 npm install
 
-# 4. Install required Bower modules
-echo "----------"
-tput setaf 2
-echo "4/6 Installation of required Bower modules (bower install)"
-tput sgr0
-echo "----------"
-bower install
-
-# 5. Build client files
+# Build client files
+stage=$((stage+1))
 echo "----------"
 tput setaf 2
 if [ $mode == "1" ]
 then
-  echo "5/6 Build client files (gulp build)"
+  echo "$stage/$stages Build client files (gulp build)"
   gulp build
 else
-  echo "5/6 Build client files (gulp build-dev)"
+  echo "$stage/$stages Build client files (gulp build-dev)"
   gulp build-dev
 fi
 tput sgr0
 echo "----------"
 
-# 6. Create database scheme from models
+# Create database scheme from models
+stage=$((stage+1))
 echo "----------"
 tput setaf 2
-echo "6/6 Create database scheme from models (node server/bin/automigrate.js)"
+echo "$stage/$stages Create database scheme from models (node server/bin/automigrate.js)"
 tput sgr0
 echo "----------"
 if [ $db == "y" ]

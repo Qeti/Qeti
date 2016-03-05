@@ -13,14 +13,12 @@
     <script src="angular2/bundles/http.dev.js"></script>
     <script src="angular2/bundles/router.dev.js"></script>
 
-    <script src="ag-grid/dist/ag-grid.js"></script>
-
     <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="ag-grid/dist/ag-grid.css">
-    <link rel="stylesheet" type="text/css" href="ag-grid/dist/theme-fresh.css">
-    
+    <link rel="stylesheet" type="text/css" href="ag-grid/dist/styles/ag-grid.css">
+    <link rel="stylesheet" type="text/css" href="ag-grid/dist/styles/theme-fresh.css">
+
     <link href="css/style.css" rel="stylesheet">
-    
+
     <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
 
     <!--
@@ -39,6 +37,16 @@
           app: {
             format: 'register',
             defaultExtension: 'js'
+          },
+          'ag-grid-ng2': {
+            defaultExtension: "js"
+          },
+          'ag-grid': {
+            defaultExtension: "js"
+          },
+          map: {
+            'ag-grid-ng2': 'node_modules/ag-grid-ng2',
+            'ag-grid': 'node_modules/ag-grid'
           }
         }
       });

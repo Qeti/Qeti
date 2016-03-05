@@ -1,20 +1,17 @@
 import {Component, View} from 'angular2/core';
-import * as core from 'angular2/core';
+import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {RouterLink} from 'angular2/router';
+import * as core from 'angular2/core';
+import {AgGridNg2} from 'ag-grid-ng2/main';
 import {CompanyApi as CompanyService} from '../../lb-services';
 import {Config} from '../../config';
-
-import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-
-declare var ag: any;
-ag.grid.initialiseAgGridWithAngular2({core: core});
 
 @Component({
   selector: 'company',
   bindings: [CompanyService]
 })
 @View({
-  directives: [(<any>window).ag.grid.AgGridNg2, RouterLink, CORE_DIRECTIVES, FORM_DIRECTIVES],
+  directives: [AgGridNg2, RouterLink, CORE_DIRECTIVES, FORM_DIRECTIVES],
   templateUrl: 'app/module/company/grid.html'
 })
 export class Company {
