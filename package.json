@@ -6,13 +6,13 @@
   "scripts": {
     "qeti": "./install.sh",
     "gulp": "./node_modules/.bin/gulp",
-    "nodemon": "./node_modules/.bin/nodemon",
+    "nodemon": "./node_modules/.bin/nodemon ./server/server.js localhost 3000 --ignore client/ --ignore build/",
     "tsc": "./node_modules/.bin/tsc",
     "tsc:w": "./node_modules/.bin/tsc -w",
     "lite": "./node_modules/.bin/lite-server",
     "typings": "./node_modules/.bin/typings",
     "postinstall": "./node_modules/.bin/typings install",
-    "start": "./node_modules/.bin/concurrently \"npm run tsc:w\" \"npm run gulp\" \"npm run nodemon ./server/server.js localhost 3000 --ignore client/ --ignore build/\" ",
+    "start": "./node_modules/.bin/concurrently \"npm run tsc:w\" \"npm run gulp\" \"npm run nodemon\" ",
     "startl": "./node_modules/.bin/concurrently \"npm run tsc:w\" \"npm run gulp\" \"npm run lite\" ",
     "lb-ng": "./node_modules/.bin/lb-ng ./server/server.js ./client/src/app/lb-services.ts -l angular2"
   },
