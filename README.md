@@ -31,7 +31,12 @@ Example for PostgreSQL:
 }
 ```
 
-Run `npm install`.
+Run
+
+```
+npm install
+```
+
 
 Installation completed.
 
@@ -43,13 +48,13 @@ Run command from path where Qeti was installed:
 node .
 ```
 
-Or if you need automatic restart of service when on any file change:
+Or if you need automatically restart service on any file changes:
 
 ```
 npm start
 ```
 
-Then open url, usually it is http://0.0.0.0:3000 in case of local installation.
+Then open url, usually http://0.0.0.0:3000 in case of local installation.
 
 ## How to contribute
 
