@@ -30,10 +30,15 @@ export class Company {
     {
       headerName: "Description", 
       field: "Description", 
+      width: 300
+    },
+    {
+      headerName: "Image", 
+      field: "Image", 
       cellRenderer: function (params: any) {
         return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
       },
-      width: 300
+      width: 70
     }
   ];
 

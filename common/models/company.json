@@ -15,7 +15,7 @@
       "type": "string",
       "length": 1000
     },
-    "image": {
+    "Image": {
       "type": "string",
       "length": 1000,
       "description": "File name of image"
