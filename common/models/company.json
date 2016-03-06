@@ -15,6 +15,11 @@
       "type": "string",
       "length": 1000
     },
+    "image": {
+      "type": "string",
+      "length": 1000,
+      "description": "File name of image"
+    },
     "AddedAt": {
       "type": "date",
       "required": true,

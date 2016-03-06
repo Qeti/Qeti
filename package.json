@@ -4,17 +4,17 @@
   "version": "1.0.0",
   "main": "server/server.js",
   "scripts": {
-    "qeti": "./install.sh",
+    "automigrate": "node server/bin/automigrate.js",
     "gulp": "./node_modules/.bin/gulp",
-    "nodemon": "./node_modules/.bin/nodemon ./server/server.js localhost 3000 --ignore client/ --ignore build/",
-    "tsc": "./node_modules/.bin/tsc",
-    "tsc:w": "./node_modules/.bin/tsc -w",
+    "lb-ng": "./node_modules/.bin/lb-ng ./server/server.js ./client/src/app/lb-services.ts -l angular2",
     "lite": "./node_modules/.bin/lite-server",
-    "typings": "./node_modules/.bin/typings",
-    "postinstall": "./node_modules/.bin/typings install",
+    "nodemon": "./node_modules/.bin/nodemon ./server/server.js localhost 3000 --ignore client/ --ignore build/",
+    "postinstall": "./install.sh",
     "start": "./node_modules/.bin/concurrently \"npm run tsc:w\" \"npm run gulp\" \"npm run nodemon\" ",
     "startl": "./node_modules/.bin/concurrently \"npm run tsc:w\" \"npm run gulp\" \"npm run lite\" ",
-    "lb-ng": "./node_modules/.bin/lb-ng ./server/server.js ./client/src/app/lb-services.ts -l angular2"
+    "tsc": "./node_modules/.bin/tsc",
+    "tsc:w": "./node_modules/.bin/tsc -w",
+    "typings": "./node_modules/.bin/typings"
   },
   "dependencies": {
     "ag-grid": "^3.3.3",

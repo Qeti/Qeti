@@ -31,7 +31,7 @@ Example for PostgreSQL:
 }
 ```
 
-Run `./install.sh` and follow instructions.
+Run `npm install`.
 
 Installation completed.
 

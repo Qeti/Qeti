@@ -1,7 +1,7 @@
 INSERT INTO "user" (realm, username, password, credentials, challenges, email, emailverified, verificationtoken, status, created, lastupdated, id) VALUES
 ('Admin', 'admin', '$2a$10$iUrp9xY/CD2ylbPt5Le9dOWSt3AOwpHaC9vJ0QCBG5uW6u/qRH0FG', '{}', '{}', 'mnvx@yandex.ru', 'f', NULL, NULL, NULL, NULL, 1);
 
-INSERT INTO company (name, description, added_at, added_by_id, modified_at, modified_by_id VALUES
+INSERT INTO company (name, description, added_at, added_by_id, modified_at, modified_by_id) VALUES
   ('Name 1', 'Description 1', NOW(), 1, NOW(), 1),
   ('Name 2', 'Description 2', NOW(), 1, NOW(), 1),
   ('Name 3', 'Description 3', NOW(), 1, NOW(), 1),

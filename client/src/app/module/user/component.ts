@@ -1,8 +1,7 @@
 import {Component, View} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import * as core from 'angular2/core';
-import {AgGridNg2} from 'ag-grid-ng2/main';
 import {RouterLink} from 'angular2/router';
+import {AgGridNg2} from 'ag-grid-ng2/main';
 import {UserApi as UserService} from '../../lb-services';
 import {Config} from '../../config';
 
