@@ -3,8 +3,8 @@ import {RouteConfig, Router, RouterLink} from 'angular2/router';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {UserApi as AuthHttp} from '../../lb-services';
 import {Menu} from '../menu/menu';
-import {Company} from '../company/component';
-import {User} from '../user/component';
+import {Company} from '../company/company';
+import {User} from '../user/user';
 import {LoggedInRouterOutlet} from '../../LoggedInOutlet';
 
 @Component({

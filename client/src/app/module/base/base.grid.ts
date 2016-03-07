@@ -4,18 +4,15 @@ import {RouterLink} from 'angular2/router';
 import {AgGridNg2} from 'ag-grid-ng2/main';
 import {CompanyApi as CompanyService} from '../../lb-services';
 import {Config} from '../../config';
+import {GridServiceInterface} from './grid.service.interface';
 
-@Component({
-  selector: 'company',
-  bindings: [CompanyService]
-})
 @View({
   directives: [AgGridNg2, RouterLink, CORE_DIRECTIVES, FORM_DIRECTIVES],
-  templateUrl: 'app/module/company/grid.html'
+  templateUrl: 'app/module/base/base.grid.html'
 })
-export class Company {
+export class BaseGrid {
 
-  private columnDefs: Object[] = [
+  protected columnDefs: Object[] = [
     {
       headerName: "Id", 
       field: "id", 
@@ -31,26 +28,18 @@ export class Company {
       headerName: "Description", 
       field: "Description", 
       width: 300
-    },
-    {
-      headerName: "Image", 
-      field: "Image", 
-      cellRenderer: function (params: any) {
-        return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
-      },
-      width: 70
     }
   ];
 
-  private enableFilter: boolean = true;
+  protected enableFilter: boolean = true;
 
-  private gridOptions: any = {};
+  protected gridOptions: any = {};
 
-  private classes: any = {
+  protected classes: any = {
     "grid": true
   };
 
-  constructor(protected service: CompanyService, private config: Config) {
+  constructor(protected service: GridServiceInterface, protected config: Config) {
     this.getData();
   }
   
