@@ -1,36 +1,36 @@
 html {
-	height: 100%;
+  height: 100%;
 }
 
 body {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
   height: 100%;
-	display: flex;
-	flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-	width: 100%;
-	min-width: 430px;
-	margin: 0 auto 30px;
-	padding: 30px 10px 10px 10px;
+  width: 100%;
+  min-width: 430px;
+  margin: 0 auto 30px;
+  padding: 30px 10px 10px 10px;
 }
 
 .main, workspace {
-	width: 100%;
-	min-width: 430px;
-	flex: 1 0 auto;
-	display: flex;
-	flex-flow: column nowrap;
+  width: 100%;
+  min-width: 430px;
+  flex: 1 0 auto;
+  display: flex;
+  flex-flow: column nowrap;
   justify-content: space-between;
   align-items: stretch;
 }
 
-company {
-	flex: 1 0 auto;
-	display: flex;
-	flex-flow: column nowrap;
+company, user {
+  flex: 1 0 auto;
+  display: flex;
+  flex-flow: column nowrap;
   justify-content: space-between;
   align-items: stretch;
   align-content: stretch;
@@ -38,9 +38,9 @@ company {
 }
 
 .grid {
-	flex: 1 0 auto;
-	display: flex;
-	flex-flow: column nowrap;
+  flex: 1 0 auto;
+  display: flex;
+  flex-flow: column nowrap;
   justify-content: space-between;
   align-items: stretch;
   align-content: stretch;

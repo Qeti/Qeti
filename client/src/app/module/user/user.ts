@@ -7,7 +7,7 @@ import {BaseGrid} from '../base/base.grid';
 import {Config} from '../../config';
 
 @Component({
-  selector: 'company',
+  selector: 'user',
   bindings: [UserService]
 })
 @View({
