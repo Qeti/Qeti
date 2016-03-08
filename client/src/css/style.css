@@ -27,7 +27,7 @@ header {
   align-items: stretch;
 }
 
-company, user {
+company, user, home {
   flex: 1 0 auto;
   display: flex;
   flex-flow: column nowrap;
@@ -65,4 +65,26 @@ footer {
 
 router-outlet {
   display: none;
+}
+
+
+.center {
+  flex-direction: column;
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+login, signup, home > div {
+  flex: 1 0 auto;
+  display: flex;
+}
+
+/* ag-grid dark */
+
+.ag-body-viewport {
+  background: #404040;
+}
+
+.ag-dark .ag-header {
+  background: #222;
 }

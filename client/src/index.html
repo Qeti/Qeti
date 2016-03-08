@@ -13,13 +13,13 @@
     <script src="angular2/bundles/http.dev.js"></script>
     <script src="angular2/bundles/router.dev.js"></script>
 
-    <link href="bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="bootswatch/slate/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="ag-grid/dist/styles/ag-grid.css">
-    <link rel="stylesheet" type="text/css" href="ag-grid/dist/styles/theme-fresh.css">
+    <link rel="stylesheet" type="text/css" href="ag-grid/dist/styles/theme-dark.css">
 
     <link href="css/style.css" rel="stylesheet">
 
-    <link rel="shortcut icon" type="image/png" href="img/favicon.png"/>
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png?"/>
 
     <!--
       Uncomment these lines and change path to src in middleware.json
@@ -51,7 +51,7 @@
         }
       });
       System.import('app/index')
-            .then(null, console.error.bind(console));
+        .then(null, console.error.bind(console));
     </script>
   </head>
   <body>

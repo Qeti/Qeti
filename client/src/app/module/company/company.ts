@@ -39,7 +39,7 @@ export class Company extends BaseGrid {
       cellRenderer: function (params: any) {
         return params.value ? '<img src="img/' + params.value + '" class="image-cell">' : '';
       },
-      width: 70
+      width: 80
     }
   ];
 
