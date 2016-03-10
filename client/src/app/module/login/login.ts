@@ -1,6 +1,7 @@
 import {Component, View} from 'angular2/core';
 import {Router, RouterLink} from 'angular2/router';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
+import {Observable} from 'rxjs/Observable';
 import {UserApi as AuthHttp} from '../../lb-services';
 
 @Component({
@@ -12,6 +13,9 @@ import {UserApi as AuthHttp} from '../../lb-services';
   styleUrls: ['app/module/login/login.css']
 })
 export class Login {
+
+  public cantAuth: boolean = false;
+
   constructor(public router: Router, public authHttp: AuthHttp) {
   }
 
@@ -21,12 +25,14 @@ export class Login {
       username: username,
       password: password
     })
-    .subscribe(res => {
-      this.router.parent.navigate(['Home']);
-    },
-    (error: any) => {
-      alert(error.text());
-      console.log(error.text());
-    });
+    .subscribe(
+      res => {
+        this.cantAuth = false;
+        this.router.parent.navigate(['Home']);
+      },
+      err => {
+        this.cantAuth = true;
+      }
+    );
   }
 }

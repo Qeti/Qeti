@@ -1,5 +1,5 @@
 /* tslint:disable */
-import {Injectable, Inject} from 'angular2/core';
+import {Injectable, Inject, Optional} from 'angular2/core';
 import {Http, Headers, Request, Response} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/throw';
@@ -105,12 +105,29 @@ class LoopBackAuth {
 
 let auth = new LoopBackAuth();
 
+
+/**
+ * Default error handler
+ */
+export class ErrorHandler {
+  public handleError(error: Response) {
+    return Observable.throw(error.json().error || 'Server error');
+  }
+}
+
+
 @Injectable()
 export abstract class BaseLoopBackApi {
 
   protected path: string;
 
-  constructor(@Inject(Http) protected http: Http) {
+  constructor(
+    @Inject(Http) protected http: Http, 
+    @Optional() @Inject(ErrorHandler) protected errorHandler: ErrorHandler
+  ) {
+    if (!errorHandler) {
+      this.errorHandler = new ErrorHandler();
+    }
     this.init();
   }
 
@@ -162,11 +179,7 @@ export abstract class BaseLoopBackApi {
 
     return this.http.request(request)
       .map(res => (res.text() != "" ? res.json() : {}))
-      .catch(this.handleError);
-  }
-
-  public handleError(error: Response) {
-    return Observable.throw(error.json().error || 'Server error');
+      .catch(this.errorHandler.handleError);
   }
 }
 
@@ -177,8 +190,11 @@ export abstract class BaseLoopBackApi {
 @Injectable()
 export class UserApi extends BaseLoopBackApi {
 
-  constructor(@Inject(Http) http: Http) {
-    super(http);
+  constructor(
+    @Inject(Http) http: Http,
+    @Optional() @Inject(ErrorHandler) errorHandler: ErrorHandler
+  ) {
+    super(http, errorHandler);
   }
 
   /**
@@ -788,11 +804,14 @@ export class UserApi extends BaseLoopBackApi {
 
     let result = this.request(method, url, urlParams, params, credentials)
       .share();
-      result.subscribe(response => {
-        auth.setUser(response.id, response.userId, response.user);
-        auth.setRememberMe(true);
-        auth.save();
-      });
+      result.subscribe(
+        response => {
+          auth.setUser(response.id, response.userId, response.user);
+          auth.setRememberMe(true);
+          auth.save();
+        },
+        () => null
+      );
     return result;
   }
 
@@ -820,10 +839,13 @@ export class UserApi extends BaseLoopBackApi {
 
     let result = this.request(method, url, urlParams, params)
       .share();
-      result.subscribe(() => {
-        auth.clearUser();
-        auth.clearStorage();
-      });
+      result.subscribe(
+        () => {
+          auth.clearUser();
+          auth.clearStorage();
+        },
+        () => null
+      );
     return result;
   }
 
@@ -899,21 +921,24 @@ export class UserApi extends BaseLoopBackApi {
     let method: string = "GET";
 
     let url: string = this.getPath() + "/users" + "/:id";
+    let id: any = auth.getCurrentUserId();
+    if (id == null) {
+      id = '__anonymous__';
+    }
     let urlParams: any = {
-      id: function() {
-        var id = auth.getCurrentUserId();
-        if (id == null) {
-          id = '__anonymous__';
-        }
-        return id;
-      }
+      id: id
     };
 
-    return this.request(method, url, urlParams)
-      .subscribe(response => {
-        auth.setCurrentUserData(response);
-        return response.resource;
-      });
+    let result = this.request(method, url, urlParams)
+      .share();
+      result.subscribe(
+        response => {
+          auth.setCurrentUserData(response);
+          return response.resource;
+        },
+        () => null
+      );
+    return result;
   }
 
   /**
@@ -926,8 +951,7 @@ export class UserApi extends BaseLoopBackApi {
    * @returns object A User instance.
    */
   public getCachedCurrent() {
-    var data = auth.getCurrentUserData();
-    return data ? new UserApi(data) : null;
+    return auth.getCurrentUserData();
   }
 
   /**
@@ -963,8 +987,11 @@ export class UserApi extends BaseLoopBackApi {
 @Injectable()
 export class CompanyApi extends BaseLoopBackApi {
 
-  constructor(@Inject(Http) http: Http) {
-    super(http);
+  constructor(
+    @Inject(Http) http: Http,
+    @Optional() @Inject(ErrorHandler) errorHandler: ErrorHandler
+  ) {
+    super(http, errorHandler);
   }
 
   /**
@@ -1460,8 +1487,11 @@ export class CompanyApi extends BaseLoopBackApi {
 @Injectable()
 export class CompanyTypeApi extends BaseLoopBackApi {
 
-  constructor(@Inject(Http) http: Http) {
-    super(http);
+  constructor(
+    @Inject(Http) http: Http,
+    @Optional() @Inject(ErrorHandler) errorHandler: ErrorHandler
+  ) {
+    super(http, errorHandler);
   }
 
   /**

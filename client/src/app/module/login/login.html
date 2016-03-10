@@ -10,6 +10,9 @@
       <label for="password">Password</label>
       <input type="password" #password class="form-control" id="password" placeholder="Password">
     </div>
+    <div *ngIf="cantAuth" class="form-group">
+        <p class="text-warning">Wrong login or password</p>
+    </div>
     <button type="submit" class="btn btn-default">Login</button>
     <a [routerLink]="['Signup']">Click here to Signup</a>
   </form>

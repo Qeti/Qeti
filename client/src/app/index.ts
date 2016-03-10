@@ -6,13 +6,15 @@ import {LocationStrategy, HashLocationStrategy} from 'angular2/router';
 import {provide} from 'angular2/core';
 import {App} from './app'
 import {Config} from './config';
-import {CompanyApi, UserApi} from './lb-services';
+import {CompanyApi, UserApi, ErrorHandler} from './lb-services';
+import {LoopbackErrorHandler} from './module/base/loopback.error.handler';
 
 bootstrap(App, [
   FORM_PROVIDERS,
   ROUTER_PROVIDERS,
   HTTP_PROVIDERS, 
   provide(LocationStrategy, {useClass: HashLocationStrategy}),
+  provide(ErrorHandler, {useClass: LoopbackErrorHandler}),
   Config, 
   CompanyApi, 
   UserApi
