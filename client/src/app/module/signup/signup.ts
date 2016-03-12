@@ -15,12 +15,13 @@ export class Signup {
   constructor(public router: Router, public authHttp: UserApi) {
   }
 
-  signup(event: any, username: string, password: string) {
+  signup(event: any, username: string, password: string, email: string) {
     event.preventDefault();
     this.authHttp
       .create({
         username: username,
-        password: password
+        password: password,
+        email: email
       })
       .subscribe(
         () => {
