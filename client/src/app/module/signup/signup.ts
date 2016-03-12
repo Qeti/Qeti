@@ -1,7 +1,7 @@
 import {Component, View} from 'angular2/core';
 import {Router, RouterLink} from 'angular2/router';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {UserApi as AuthHttp} from '../../lb-services';
+import {UserApi} from '../../lb-services';
 
 @Component({
   selector: 'signup'
@@ -12,7 +12,7 @@ import {UserApi as AuthHttp} from '../../lb-services';
   styleUrls: ['app/module/signup/signup.css']
 })
 export class Signup {
-  constructor(public router: Router, public authHttp: AuthHttp) {
+  constructor(public router: Router, public authHttp: UserApi) {
   }
 
   signup(event: any, username: string, password: string) {

@@ -1,15 +1,6 @@
-//import {View} from 'angular2/core';
-//import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-//import {RouterLink} from 'angular2/router';
-//import {AgGridNg2} from 'ag-grid-ng2/main';
-import {CompanyApi as CompanyService} from '../../lb-services';
 import {Config} from '../../config';
 import {GridServiceInterface} from './grid.service.interface';
 
-//@View({
-//  directives: [AgGridNg2, RouterLink, CORE_DIRECTIVES, FORM_DIRECTIVES],
-//  templateUrl: 'app/module/base/base.grid.html'
-//})
 export class BaseGrid {
 
   protected columnDefs: Object[] = [

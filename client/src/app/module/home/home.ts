@@ -1,6 +1,6 @@
 import {Component, View} from 'angular2/core';
 import {CORE_DIRECTIVES} from 'angular2/common';
-import {UserApi as AuthHttp} from '../../lb-services';
+import {UserApi} from '../../lb-services';
 import {Router, RouterLink} from 'angular2/router';
 
 @Component({
@@ -13,7 +13,7 @@ import {Router, RouterLink} from 'angular2/router';
 })
 export class Home {
 
-  constructor(public router: Router, public authHttp: AuthHttp) {
+  constructor(public router: Router, public authHttp: UserApi) {
   }
   
   public isAuthenticated() {

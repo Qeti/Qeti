@@ -1,8 +1,7 @@
 import {Component, View} from 'angular2/core';
 import {Router, RouterLink} from 'angular2/router';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
-import {Observable} from 'rxjs/Observable';
-import {UserApi as AuthHttp} from '../../lb-services';
+import {UserApi} from '../../lb-services';
 
 @Component({
   selector: 'login'
@@ -16,7 +15,7 @@ export class Login {
 
   public cantAuth: boolean = false;
 
-  constructor(public router: Router, public authHttp: AuthHttp) {
+  constructor(public router: Router, public authHttp: UserApi) {
   }
 
   login(event: any, username: string, password: string) {

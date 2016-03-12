@@ -1,6 +1,6 @@
 import {Directive, Attribute, ElementRef, DynamicComponentLoader} from 'angular2/core';
 import {Router, RouterOutlet, ComponentInstruction} from 'angular2/router';
-import {UserApi as AuthHttp} from './lb-services';
+import {UserApi} from './lb-services';
 
 @Directive({
   selector: 'router-outlet'
@@ -16,7 +16,7 @@ export class LoggedInRouterOutlet extends RouterOutlet {
     _loader: DynamicComponentLoader,
     private parentRouter: Router, 
     @Attribute('name') nameAttr: string, 
-    public authHttp: AuthHttp
+    public authHttp: UserApi
   ) {
     super(_elementRef, _loader, parentRouter, nameAttr);
   }

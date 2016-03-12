@@ -2,19 +2,19 @@ import {Component, View} from 'angular2/core';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {RouterLink} from 'angular2/router';
 import {AgGridNg2} from 'ag-grid-ng2/main';
-import {CompanyApi as CompanyService} from '../../lb-services';
+import {CompanyApi} from '../../lb-services';
 import {BaseGrid} from '../base/base.grid';
 import {Config} from '../../config';
 
 @Component({
   selector: 'company',
-  bindings: [CompanyService]
+  providers: [CompanyApi]
 })
 @View({
   directives: [AgGridNg2, RouterLink, CORE_DIRECTIVES, FORM_DIRECTIVES],
   templateUrl: 'app/module/base/base.grid.html'
 })
-export class Company extends BaseGrid {
+export class CompanyGrid extends BaseGrid {
 
   protected columnDefs: Object[] = [
     {
@@ -43,7 +43,7 @@ export class Company extends BaseGrid {
     }
   ];
 
-  constructor(protected service: CompanyService, protected config: Config) {
+  constructor(protected service: CompanyApi, protected config: Config) {
     super(service, config);
   }
 }
