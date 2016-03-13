@@ -3,8 +3,8 @@ import {RouteConfig, Router, RouterLink} from 'angular2/router';
 import {CORE_DIRECTIVES, FORM_DIRECTIVES} from 'angular2/common';
 import {UserApi} from '../../lb-services';
 import {Menu} from '../menu/menu';
-import {CompanyGrid} from '../company/company';
-import {UserGrid} from '../user/user';
+import {CompanySection} from '../company/company.section';
+import {UserSection} from '../user/user.section';
 import {LoggedInRouterOutlet} from '../../LoggedInOutlet';
 
 @Component({
@@ -15,8 +15,8 @@ import {LoggedInRouterOutlet} from '../../LoggedInOutlet';
   templateUrl: 'app/module/workspace/workspace.html'
 })
 @RouteConfig([
-  { path: '/company', component: CompanyGrid, as: 'Company', useAsDefault: true },
-  { path: '/user', component: UserGrid, as: 'User' }
+  { path: '/companies/...', component: CompanySection, as: 'CompanySection', useAsDefault: true },
+  { path: '/users/...', component: UserSection, as: 'UserSection' }
 ])
 export class Workspace {
   constructor(public router: Router, public authHttp: UserApi) {

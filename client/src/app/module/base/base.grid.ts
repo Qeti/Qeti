@@ -61,4 +61,12 @@ export class BaseGrid {
     
     this.classes[this.config.gridTheme] = true;
   }
+  
+  public editRow() {
+      alert('edit');
+  }
+  
+  public deleteRow() {
+      alert('delete');
+  }
 }

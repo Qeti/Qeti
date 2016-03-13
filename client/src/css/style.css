@@ -27,7 +27,7 @@ header {
   align-items: stretch;
 }
 
-company, user, home {
+.section, .section-list, home {
   flex: 1 0 auto;
   display: flex;
   flex-flow: column nowrap;
@@ -87,4 +87,8 @@ login, signup, home > div {
 
 .ag-dark .ag-header {
   background: #222;
+}
+
+nav.grid {
+    margin: 20px 0;
 }

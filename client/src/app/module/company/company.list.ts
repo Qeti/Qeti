@@ -7,14 +7,15 @@ import {BaseGrid} from '../base/base.grid';
 import {Config} from '../../config';
 
 @Component({
-  selector: 'company',
+  selector: 'company-list',
+  host: { 'class': 'section-list' },
   providers: [CompanyApi]
 })
 @View({
   directives: [AgGridNg2, RouterLink, CORE_DIRECTIVES, FORM_DIRECTIVES],
   templateUrl: 'app/module/base/base.grid.html'
 })
-export class CompanyGrid extends BaseGrid {
+export class CompanyList extends BaseGrid {
 
   protected columnDefs: Object[] = [
     {

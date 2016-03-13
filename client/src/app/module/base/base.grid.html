@@ -1,3 +1,4 @@
+<router-outlet></router-outlet>
 <ag-grid-ng2
   #agGrid
   (ready)="agGrid.api.sizeColumnsToFit()"
@@ -12,8 +13,21 @@
 >
 </ag-grid-ng2>
 
-<nav>
-  <ul class="pager">
-    <li class="pull-right"><a role="button" (click)="getData()">Redraw</a></li>
-  </ul>
-</nav>
+<div class="row">
+  <div class="col-xs-9">
+    <nav class="grid">
+      <ul class="nav nav-pills">
+        <li><a [routerLink]="['Create']">Create</a></li>
+        <li><button type="button" class="btn btn-default" (click)="editRow()">Edit</button></li>
+        <li><button type="button" class="btn btn-default" (click)="deleteRow()">Delete</button></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="col-xs-3">
+    <nav>
+      <ul class="pager">
+        <li class="pull-right"><a role="button" (click)="getData()">Redraw</a></li>
+      </ul>
+    </nav>
+  </div>
+</div>

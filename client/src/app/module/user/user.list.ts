@@ -8,13 +8,14 @@ import {Config} from '../../config';
 
 @Component({
   selector: 'user',
+  host: { 'class': 'section-list' },
   providers: [UserApi]
 })
 @View({
   directives: [AgGridNg2, RouterLink, CORE_DIRECTIVES, FORM_DIRECTIVES],
   templateUrl: 'app/module/base/base.grid.html'
 })
-export class UserGrid extends BaseGrid {
+export class UserList extends BaseGrid {
 
   protected columnDefs: Object[] = [
     {
