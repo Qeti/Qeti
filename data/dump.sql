@@ -1,5 +1,6 @@
 INSERT INTO "user" (realm, username, password, credentials, challenges, email, emailverified, verificationtoken, status, created, lastupdated, id) VALUES
 ('Admin', 'admin', '$2a$10$iUrp9xY/CD2ylbPt5Le9dOWSt3AOwpHaC9vJ0QCBG5uW6u/qRH0FG', '{}', '{}', 'mnvx@yandex.ru', 'f', NULL, NULL, NULL, NULL, 1);
+SELECT setval('user_id_seq', COALESCE((SELECT MAX(id)+1 FROM "user"), 1), false);
 
 INSERT INTO company (id, name, description, image, added_at, added_by_id, modified_at, modified_by_id) VALUES
   (1, 'Name 1', 'Description 1', 'cat.png', NOW(), 1, NOW(), 1),
@@ -5002,3 +5003,4 @@ INSERT INTO company (id, name, description, image, added_at, added_by_id, modifi
   (4998, 'Name 4998', 'Description 4998', NULL, NOW(), 1, NOW(), 1),
   (4999, 'Name 4999', 'Description 4999', NULL, NOW(), 1, NOW(), 1),
   (5000, 'Name 5000', 'Description 5000', NULL, NOW(), 1, NOW(), 1);
+SELECT setval('company_id_seq', COALESCE((SELECT MAX(id)+1 FROM company), 1), false);
